@@ -3,8 +3,11 @@ import './PotteryForm.css';
 import Button from '../common/Button';
 import StatusSelector from '../common/StatusSelector';
 import { POTTERY_STATUS } from '../../models/PotteryPiece';
+import { APPLICATION_METHOD, APPLICATION_AREA } from '../../models/PotteryPieceGlaze';
 import { getAllClayTypes } from '../../services/clayTypeService';
+import { getAllGlazes } from '../../services/glazeService';
 import { createNewPotteryPiece } from '../../services/potteryPieceService';
+import { addGlazeToPiece } from '../../services/potteryPieceGlazeService';
 
 /**
  * PotteryForm Component
@@ -30,13 +33,20 @@ function PotteryForm({ onSuccess, onCancel }) {
     imageUrl: ''
   });
 
-  // Available clay types
+  // Available clay types and glazes
   const [clayTypes, setClayTypes] = useState([]);
+  const [availableGlazes, setAvailableGlazes] = useState([]);
 
-  // Load clay types when component mounts
+  // Selected glazes with application details
+  const [selectedGlazes, setSelectedGlazes] = useState([]);
+
+  // Load clay types and glazes when component mounts
   useEffect(() => {
     const types = getAllClayTypes();
     setClayTypes(types);
+
+    const glazes = getAllGlazes();
+    setAvailableGlazes(glazes);
 
     // Pre-select first clay type if available
     if (types.length > 0 && !formData.clayTypeId) {
@@ -66,6 +76,48 @@ function PotteryForm({ onSuccess, onCancel }) {
   };
 
   /**
+   * Add a glaze to the piece
+   */
+  const handleAddGlaze = () => {
+    if (availableGlazes.length === 0) return;
+
+    // Add first available glaze with default settings
+    const firstGlaze = availableGlazes[0];
+    setSelectedGlazes(prev => [...prev, {
+      glazeId: firstGlaze.id,
+      glazeName: firstGlaze.name,
+      applicationMethod: APPLICATION_METHOD.DIPPED,
+      applicationArea: APPLICATION_AREA.FULL,
+      layers: 1
+    }]);
+  };
+
+  /**
+   * Remove a glaze from selection
+   */
+  const handleRemoveGlaze = (index) => {
+    setSelectedGlazes(prev => prev.filter((_, i) => i !== index));
+  };
+
+  /**
+   * Update glaze application details
+   */
+  const handleGlazeChange = (index, field, value) => {
+    setSelectedGlazes(prev => {
+      const updated = [...prev];
+      updated[index] = { ...updated[index], [field]: value };
+
+      // Update glaze name if glaze ID changed
+      if (field === 'glazeId') {
+        const glaze = availableGlazes.find(g => g.id === parseInt(value));
+        updated[index].glazeName = glaze ? glaze.name : '';
+      }
+
+      return updated;
+    });
+  };
+
+  /**
    * Handle form submission
    */
   const handleSubmit = (e) => {
@@ -82,6 +134,17 @@ function PotteryForm({ onSuccess, onCancel }) {
       weight: parseFloat(formData.weight) || 0,
       notes: formData.notes,
       imageUrl: formData.imageUrl
+    });
+
+    // Add glazes to the piece
+    selectedGlazes.forEach(glaze => {
+      addGlazeToPiece({
+        potteryPieceId: newPiece.id,
+        glazeId: parseInt(glaze.glazeId),
+        applicationMethod: glaze.applicationMethod,
+        applicationArea: glaze.applicationArea,
+        layers: parseInt(glaze.layers) || 1
+      });
     });
 
     // Call success callback
@@ -185,6 +248,100 @@ function PotteryForm({ onSuccess, onCancel }) {
             placeholder="0.0"
           />
         </div>
+      </div>
+
+      {/* Glazes section */}
+      <div className="form-group">
+        <label>Glazes (optional)</label>
+
+        {selectedGlazes.length === 0 ? (
+          <p className="form-hint">No glazes added yet. Click the button below to add a glaze.</p>
+        ) : (
+          <div className="glaze-list">
+            {selectedGlazes.map((glaze, index) => (
+              <div key={index} className="glaze-item">
+                <div className="glaze-item-header">
+                  <span className="glaze-number">Glaze {index + 1}</span>
+                  <button
+                    type="button"
+                    className="glaze-remove"
+                    onClick={() => handleRemoveGlaze(index)}
+                  >
+                    Remove
+                  </button>
+                </div>
+
+                <div className="glaze-fields">
+                  {/* Glaze selection */}
+                  <div className="glaze-field">
+                    <label>Glaze Type</label>
+                    <select
+                      value={glaze.glazeId}
+                      onChange={(e) => handleGlazeChange(index, 'glazeId', e.target.value)}
+                    >
+                      {availableGlazes.map(g => (
+                        <option key={g.id} value={g.id}>
+                          {g.name} ({g.color}, {g.temperature} fire)
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Application method */}
+                  <div className="glaze-field">
+                    <label>Method</label>
+                    <select
+                      value={glaze.applicationMethod}
+                      onChange={(e) => handleGlazeChange(index, 'applicationMethod', e.target.value)}
+                    >
+                      <option value={APPLICATION_METHOD.DIPPED}>Dipped</option>
+                      <option value={APPLICATION_METHOD.BRUSHED}>Brushed</option>
+                      <option value={APPLICATION_METHOD.SPRAYED}>Sprayed</option>
+                      <option value={APPLICATION_METHOD.POURED}>Poured</option>
+                      <option value={APPLICATION_METHOD.SPONGED}>Sponged</option>
+                    </select>
+                  </div>
+
+                  {/* Application area */}
+                  <div className="glaze-field">
+                    <label>Area</label>
+                    <select
+                      value={glaze.applicationArea}
+                      onChange={(e) => handleGlazeChange(index, 'applicationArea', e.target.value)}
+                    >
+                      <option value={APPLICATION_AREA.FULL}>Full</option>
+                      <option value={APPLICATION_AREA.EXTERIOR}>Exterior</option>
+                      <option value={APPLICATION_AREA.INTERIOR}>Interior</option>
+                      <option value={APPLICATION_AREA.RIM}>Rim</option>
+                      <option value={APPLICATION_AREA.BASE}>Base</option>
+                      <option value={APPLICATION_AREA.PARTIAL}>Partial</option>
+                    </select>
+                  </div>
+
+                  {/* Layers */}
+                  <div className="glaze-field">
+                    <label>Layers</label>
+                    <input
+                      type="number"
+                      min="1"
+                      max="10"
+                      value={glaze.layers}
+                      onChange={(e) => handleGlazeChange(index, 'layers', e.target.value)}
+                    />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        <button
+          type="button"
+          className="add-glaze-button"
+          onClick={handleAddGlaze}
+        >
+          + Add Glaze
+        </button>
       </div>
 
       {/* Notes */}
