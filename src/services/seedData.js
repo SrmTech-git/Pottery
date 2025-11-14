@@ -55,6 +55,22 @@ export function seedSampleData() {
     color: CLAY_COLORS.LIGHT
   });
 
+  // eslint-disable-next-line no-unused-vars
+  const bmix5 = createNewClayType({
+    name: "B-Mix 5",
+    description: "Laguna B-Mix cone 5 clay, versatile mid-range clay body with excellent workability.",
+    temperature: TEMPERATURE.HIGH,
+    color: CLAY_COLORS.LIGHT
+  });
+
+  // eslint-disable-next-line no-unused-vars
+  const bmix10 = createNewClayType({
+    name: "B-Mix 10",
+    description: "Laguna B-Mix cone 10 clay, smooth high-fire clay body popular for wheel throwing.",
+    temperature: TEMPERATURE.HIGH,
+    color: CLAY_COLORS.LIGHT
+  });
+
   // Create glazes
   const celadon = createNewGlaze({
     name: "Celadon",
@@ -197,7 +213,7 @@ export function seedSampleData() {
 
   console.log('Sample data seeded successfully!');
   console.log('Created:');
-  console.log('- 3 clay types');
+  console.log('- 5 clay types');
   console.log('- 4 glazes');
   console.log('- 5 pottery pieces in various stages');
 }
