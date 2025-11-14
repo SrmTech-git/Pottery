@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import Dashboard from './components/dashboard/Dashboard';
+import KanbanBoard from './components/kanban/KanbanBoard';
 import PotteryList from './components/pottery/PotteryList';
 import Button from './components/common/Button';
 import ThemeToggle from './components/common/ThemeToggle';
@@ -78,6 +79,7 @@ function App() {
         {showData && (
           <>
             <Dashboard key={`dashboard-${Date.now()}`} />
+            <KanbanBoard key={`kanban-${Date.now()}`} />
             <PotteryList key={Date.now()} />
           </>
         )}
