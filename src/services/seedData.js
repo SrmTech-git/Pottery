@@ -76,6 +76,8 @@ export function seedSampleData() {
     notes: "Creates beautiful iron spots and variations. Thicker application gives darker results."
   });
 
+  // Low-fire glaze for earthenware (not used in current seed data, but available)
+  // eslint-disable-next-line no-unused-vars
   const clearGloss = createNewGlaze({
     name: "Clear Gloss",
     description: "Transparent glossy glaze",
