@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import PotteryList from './components/pottery/PotteryList';
 import Button from './components/common/Button';
+import ThemeToggle from './components/common/ThemeToggle';
 import { hasData, seedSampleData, clearAllData } from './services/seedData';
 
 /**
@@ -38,6 +39,9 @@ function App() {
   return (
     <div className="app">
       <header className="app-header">
+        <div className="header-top">
+          <ThemeToggle />
+        </div>
         <div className="header-content">
           <div className="header-text">
             <h1>🏺 Pottery Management System</h1>

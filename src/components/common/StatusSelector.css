@@ -7,7 +7,7 @@
 .status-selector-label {
   display: block;
   font-weight: 600;
-  color: #333;
+  color: var(--text-primary);
   margin-bottom: 0.75rem;
   font-size: 0.95rem;
 }
@@ -24,25 +24,26 @@
   align-items: center;
   gap: 0.5rem;
   padding: 1rem 0.75rem;
-  border: 2px solid #e0e0e0;
+  border: 2px solid var(--border-color);
   border-radius: 8px;
-  background: white;
+  background: var(--background-card);
+  color: var(--text-primary);
   cursor: pointer;
   transition: all 0.2s;
   font-family: inherit;
 }
 
 .status-button:hover {
-  border-color: #667eea;
-  background-color: #f8f9ff;
+  border-color: var(--primary-color);
+  background-color: var(--background-secondary);
   transform: translateY(-2px);
 }
 
 .status-button.selected {
-  border-color: #667eea;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  border-color: var(--primary-color);
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+  color: var(--background-primary);
+  box-shadow: 0 4px 12px var(--shadow-color);
 }
 
 .status-icon {
@@ -58,7 +59,7 @@
 }
 
 .status-button.selected .status-name {
-  color: white;
+  color: var(--background-primary);
 }
 
 /* Responsive - stack on mobile */

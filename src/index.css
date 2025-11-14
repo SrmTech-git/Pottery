@@ -1,5 +1,66 @@
 /* Global styles for the Pottery Management System */
 
+/* CSS Variables for Earth Tone Theme and Dark Mode */
+:root {
+  /* Earth Tone Colors - Light Mode */
+  --primary-color: #B85C38;        /* Rust/Terracotta */
+  --primary-dark: #8B4513;         /* Saddle Brown */
+  --primary-light: #C97850;        /* Lighter Rust */
+
+  --secondary-color: #8B6F47;      /* Clay Brown */
+  --secondary-dark: #6B5335;       /* Dark Clay */
+  --secondary-light: #A68A64;      /* Light Clay */
+
+  --accent-color: #D4A574;         /* Sand */
+  --accent-dark: #B8956A;          /* Dark Sand */
+
+  --background-primary: #FAF7F2;   /* Cream */
+  --background-secondary: #F5F1E8; /* Light Beige */
+  --background-card: #FFFFFF;      /* White */
+
+  --text-primary: #2C2416;         /* Dark Brown */
+  --text-secondary: #5C4D3C;       /* Medium Brown */
+  --text-muted: #8B7A6A;           /* Muted Brown */
+
+  --border-color: #D4C4B0;         /* Light Brown */
+  --shadow-color: rgba(0, 0, 0, 0.1);
+
+  --success-color: #6B8E23;        /* Olive Green */
+  --warning-color: #CD853F;        /* Peru */
+  --error-color: #A0522D;          /* Sienna */
+  --info-color: #708090;           /* Slate Gray */
+}
+
+/* Dark Mode Theme */
+[data-theme="dark"] {
+  --primary-color: #C97850;        /* Lighter Rust for dark mode */
+  --primary-dark: #B85C38;
+  --primary-light: #D4A574;
+
+  --secondary-color: #A68A64;
+  --secondary-dark: #8B6F47;
+  --secondary-light: #C4B5A0;
+
+  --accent-color: #D4A574;
+  --accent-dark: #C97850;
+
+  --background-primary: #1A1512;   /* Very Dark Brown */
+  --background-secondary: #2C2416; /* Dark Brown */
+  --background-card: #3A3027;      /* Medium Dark Brown */
+
+  --text-primary: #F5F1E8;         /* Light Beige */
+  --text-secondary: #D4C4B0;       /* Light Brown */
+  --text-muted: #A68A64;           /* Clay */
+
+  --border-color: #5C4D3C;         /* Medium Brown */
+  --shadow-color: rgba(0, 0, 0, 0.3);
+
+  --success-color: #8FBC8F;        /* Dark Sea Green */
+  --warning-color: #DEB887;        /* Burlywood */
+  --error-color: #CD5C5C;          /* Indian Red */
+  --info-color: #B0C4DE;           /* Light Steel Blue */
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -12,8 +73,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f5f5f5;
-  color: #333;
+  background-color: var(--background-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 code {

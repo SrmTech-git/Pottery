@@ -15,14 +15,16 @@
 }
 
 .modal-content {
-  background: white;
+  background: var(--background-card);
   border-radius: 12px;
   max-width: 600px;
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 10px 40px var(--shadow-color);
+  border: 1px solid var(--border-color);
   animation: modalSlideIn 0.3s ease-out;
+  transition: background-color 0.3s ease;
 }
 
 @keyframes modalSlideIn {
@@ -41,12 +43,12 @@
   justify-content: space-between;
   align-items: center;
   padding: 1.5rem;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .modal-header h2 {
   margin: 0;
-  color: #333;
+  color: var(--text-primary);
   font-size: 1.5rem;
 }
 
@@ -54,14 +56,14 @@
   background: none;
   border: none;
   font-size: 1.5rem;
-  color: #999;
+  color: var(--text-muted);
   cursor: pointer;
   padding: 0.25rem 0.5rem;
   transition: color 0.2s;
 }
 
 .modal-close:hover {
-  color: #333;
+  color: var(--text-primary);
 }
 
 .modal-body {

@@ -1,14 +1,24 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
+import { ThemeProvider } from './context/ThemeContext';
 
 /**
  * Test suite for the main App component
  * These tests ensure the App renders correctly
  */
 
+// Helper function to render App with ThemeProvider
+function renderWithTheme() {
+  return render(
+    <ThemeProvider>
+      <App />
+    </ThemeProvider>
+  );
+}
+
 test('renders pottery management heading', () => {
-  // Arrange & Act: Render the App component
-  render(<App />);
+  // Arrange & Act: Render the App component with ThemeProvider
+  renderWithTheme();
 
   // Assert: Check if the heading is displayed
   // Using getByRole to specifically target the h1 heading
@@ -20,8 +30,8 @@ test('renders pottery management heading', () => {
 });
 
 test('renders welcome message', () => {
-  // Arrange & Act: Render the App component
-  render(<App />);
+  // Arrange & Act: Render the App component with ThemeProvider
+  renderWithTheme();
 
   // Assert: Check if welcome message is present
   const welcomeElement = screen.getByText(/Welcome!/i);
@@ -29,8 +39,8 @@ test('renders welcome message', () => {
 });
 
 test('displays load sample data button', () => {
-  // Arrange & Act: Render the App component
-  render(<App />);
+  // Arrange & Act: Render the App component with ThemeProvider
+  renderWithTheme();
 
   // Assert: Check if the load sample data button is present
   const buttonElement = screen.getByText(/Load Sample Data/i);
