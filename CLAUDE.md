@@ -10,6 +10,15 @@
 ### Purpose
 This document serves as a comprehensive guide for AI assistants (like Claude) working on the Pottery codebase. It outlines project structure, development workflows, coding conventions, and best practices.
 
+### Project Description
+Pottery is a demo pottery management tool designed to help manage pottery-related activities, inventory, and operations. The application is built with a focus on simplicity and readability, making it accessible for junior developers to understand and maintain.
+
+**Key Goals:**
+- Create a user-friendly pottery management system
+- Write clean, understandable code suitable for junior developers
+- Build with future scalability in mind (eventual SQL database + Java backend)
+- Demonstrate best practices in React development
+
 ---
 
 ## Repository Structure
@@ -18,26 +27,36 @@ This document serves as a comprehensive guide for AI assistants (like Claude) wo
 Pottery/
 ├── .git/                    # Git repository metadata
 ├── CLAUDE.md               # This file - AI assistant guide
-├── README.md               # Project documentation (to be created)
-├── .gitignore              # Git ignore patterns (to be created)
-└── [Project files to be added]
-```
-
-### Expected Directory Structure
-
-As the project develops, consider organizing code into:
-
-```
+├── README.md               # Project documentation
+├── .gitignore              # Git ignore patterns
+├── package.json            # NPM dependencies and scripts
+├── package-lock.json       # NPM dependency lock file
+├── public/                 # Static files (HTML, favicon, etc.)
+│   └── index.html         # Main HTML file
 ├── src/                    # Source code
-│   ├── components/        # Reusable components
-│   ├── services/          # Business logic and API services
+│   ├── components/        # React components
+│   ├── services/          # Business logic and localStorage services
 │   ├── utils/             # Utility functions
-│   ├── models/            # Data models/types
-│   └── config/            # Configuration files
-├── tests/                 # Test files
-├── docs/                  # Additional documentation
-├── scripts/               # Build and utility scripts
-└── public/                # Static assets (if web project)
+│   ├── models/            # Data models and types
+│   ├── hooks/             # Custom React hooks
+│   ├── context/           # React Context providers
+│   ├── App.jsx            # Main App component
+│   ├── index.jsx          # React entry point
+│   └── index.css          # Global styles
+└── tests/                 # Test files (optional: can be colocated)
+```
+
+### Component Organization
+
+Organize components by feature or functionality:
+
+```
+src/
+├── components/
+│   ├── common/            # Shared/reusable components (Button, Input, etc.)
+│   ├── pottery/           # Pottery-specific components
+│   ├── inventory/         # Inventory management components
+│   └── layout/            # Layout components (Header, Footer, etc.)
 ```
 
 ---
@@ -125,15 +144,77 @@ Detailed explanation if needed
 
 ### Code Style
 
-**To be defined based on project language:**
+**JavaScript/React Conventions:**
 
-- Indentation: [tabs/spaces, size]
-- Line length: [max characters]
-- Naming conventions:
-  - Variables: `camelCase` or `snake_case`
-  - Classes: `PascalCase`
-  - Constants: `UPPER_CASE`
-  - Files: `kebab-case` or `PascalCase`
+- **Indentation:** 2 spaces (no tabs)
+- **Line length:** Max 100 characters (aim for 80)
+- **File extensions:** `.jsx` for components, `.js` for utilities
+- **Naming conventions:**
+  - **Variables/Functions:** `camelCase` (e.g., `userData`, `fetchPotteryItems`)
+  - **Components:** `PascalCase` (e.g., `PotteryList`, `InventoryManager`)
+  - **Constants:** `UPPER_CASE` (e.g., `MAX_ITEMS`, `API_TIMEOUT`)
+  - **Files:** Match component name in `PascalCase` for components, `camelCase` for utilities
+  - **CSS classes:** `kebab-case` (e.g., `pottery-item`, `inventory-list`)
+
+### React-Specific Guidelines
+
+1. **Component Structure:**
+   ```jsx
+   // Imports
+   import React, { useState } from 'react';
+
+   // Component definition
+   function ComponentName({ prop1, prop2 }) {
+     // State declarations
+     const [state, setState] = useState(initialValue);
+
+     // Event handlers
+     const handleEvent = () => {
+       // handler logic
+     };
+
+     // Render
+     return (
+       <div>
+         {/* JSX content */}
+       </div>
+     );
+   }
+
+   export default ComponentName;
+   ```
+
+2. **Props Destructuring:**
+   - Always destructure props in function parameters for clarity
+   - Example: `function Button({ text, onClick, disabled })` not `function Button(props)`
+
+3. **State Management:**
+   - Use `useState` for component state
+   - Use Context API for shared state across multiple components
+   - Keep state as close to where it's used as possible
+
+4. **Comments for Junior Devs:**
+   - Add explanatory comments for non-obvious logic
+   - Explain "why" not "what" when code is clear
+   - Include examples in comments when helpful
+   - Use JSDoc for function documentation:
+   ```javascript
+   /**
+    * Calculates the total cost of pottery items
+    * @param {Array} items - Array of pottery item objects
+    * @returns {number} Total cost in dollars
+    */
+   function calculateTotal(items) {
+     // implementation
+   }
+   ```
+
+5. **Code Readability for Junior Developers:**
+   - Prefer explicit over clever code
+   - Break complex operations into smaller, named functions
+   - Use descriptive variable names (e.g., `potteryItemList` not `pil`)
+   - Avoid advanced JavaScript features without explanation
+   - Add comments explaining React concepts (hooks, lifecycle, etc.)
 
 ---
 
@@ -141,34 +222,69 @@ Detailed explanation if needed
 
 ### Test Coverage Goals
 
-- Aim for 80%+ code coverage
-- All new features must include tests
-- Critical paths require comprehensive testing
+- Aim for 70%+ code coverage (80%+ for critical features)
+- All new features should include tests
+- Critical user workflows require comprehensive testing
 
 ### Test Types
 
-1. **Unit Tests**
-   - Test individual functions/methods
-   - Mock external dependencies
+1. **Unit Tests** (React Testing Library + Jest)
+   - Test individual components in isolation
+   - Test utility functions and helpers
+   - Mock localStorage and external dependencies
    - Fast execution
 
 2. **Integration Tests**
    - Test component interactions
-   - Test API endpoints
-   - Database operations
+   - Test data flow between components
+   - Test localStorage operations
+   - Test context providers and consumers
 
-3. **End-to-End Tests**
+3. **End-to-End Tests** (Optional for demo)
    - Test complete user workflows
-   - Critical business processes
+   - Test critical pottery management processes
+
+### Testing Tools
+
+- **Jest:** Test runner and assertion library (comes with Create React App)
+- **React Testing Library:** Component testing with user-centric approach
+- **@testing-library/user-event:** Simulate user interactions
+- **@testing-library/jest-dom:** Additional DOM matchers
 
 ### Running Tests
 
 ```bash
-# To be defined based on testing framework
-# Examples:
-# npm test
-# pytest
-# cargo test
+# Run all tests
+npm test
+
+# Run tests in watch mode (recommended during development)
+npm test -- --watch
+
+# Run tests with coverage report
+npm test -- --coverage
+
+# Run specific test file
+npm test -- ComponentName.test.jsx
+```
+
+### Writing Tests for Junior Developers
+
+Keep tests simple and readable:
+
+```jsx
+import { render, screen, fireEvent } from '@testing-library/react';
+import PotteryItem from './PotteryItem';
+
+test('displays pottery item name', () => {
+  // Arrange: Set up test data
+  const pottery = { id: 1, name: 'Clay Vase', price: 29.99 };
+
+  // Act: Render component
+  render(<PotteryItem item={pottery} />);
+
+  // Assert: Check expected outcome
+  expect(screen.getByText('Clay Vase')).toBeInTheDocument();
+});
 ```
 
 ---
@@ -178,21 +294,45 @@ Detailed explanation if needed
 ### Installing Dependencies
 
 ```bash
-# To be defined based on project type
-# Examples:
-# npm install
-# pip install -r requirements.txt
-# cargo build
+# Install all dependencies
+npm install
+
+# Install a new dependency
+npm install package-name
+
+# Install a dev dependency (testing, build tools, etc.)
+npm install --save-dev package-name
 ```
+
+### Core Dependencies
+
+**Production:**
+- `react` - Core React library
+- `react-dom` - React DOM rendering
+- Additional dependencies to be added as needed
+
+**Development:**
+- `@testing-library/react` - React component testing
+- `@testing-library/jest-dom` - Jest DOM matchers
+- `@testing-library/user-event` - User interaction simulation
 
 ### Adding New Dependencies
 
-1. Evaluate necessity and alternatives
-2. Check license compatibility
-3. Review security vulnerabilities
-4. Document why dependency is needed
-5. Update dependency file
-6. Update documentation
+1. **Evaluate necessity** - Can we accomplish this without a new dependency?
+2. **Check license compatibility** - MIT, Apache 2.0 preferred
+3. **Review security vulnerabilities** - Check npm audit
+4. **Consider bundle size** - Keep app lightweight
+5. **Verify maintenance** - Is package actively maintained?
+6. **Document why needed** - Add comment in package.json or docs
+7. **Update documentation** - Note in CLAUDE.md if significant
+
+### Dependency Guidelines for Junior Developers
+
+- **Prefer standard libraries** when possible
+- **Avoid unnecessary dependencies** - each dependency is technical debt
+- **Use established packages** with good documentation
+- **Check weekly downloads** on npmjs.com (higher is generally better)
+- **Read the documentation** before adding a new dependency
 
 ---
 
@@ -244,53 +384,230 @@ Include examples for all endpoints:
 
 ---
 
-## Database Schema
+## Data Storage and Models
 
-### Migrations
+### Current Implementation: LocalStorage
 
-- Always create migration files for schema changes
-- Never modify existing migrations
-- Test migrations on development before production
+The application currently uses browser localStorage for data persistence:
 
-### Data Models
+```javascript
+// Example localStorage operations
+// Save data
+localStorage.setItem('potteryItems', JSON.stringify(items));
 
-Document key data models and relationships:
+// Retrieve data
+const items = JSON.parse(localStorage.getItem('potteryItems') || '[]');
 
+// Remove data
+localStorage.removeItem('potteryItems');
+
+// Clear all data
+localStorage.clear();
 ```
-[To be defined as models are created]
+
+### Data Model Design Principles
+
+**IMPORTANT:** Design all data models to be SQL-compatible for future migration to a relational database with Java backend.
+
+**Guidelines:**
+1. **Use object structures** that map to database tables
+2. **Include ID fields** (numeric or UUID strings)
+3. **Use proper data types** (strings, numbers, booleans, dates as ISO strings)
+4. **Define relationships** through foreign key fields
+5. **Avoid complex nested objects** that don't translate to SQL
+6. **Include timestamps** (createdAt, updatedAt as ISO date strings)
+
+### Example Data Models
+
+```javascript
+// Pottery Item Model
+const potteryItem = {
+  id: 1,                              // PRIMARY KEY (auto-increment)
+  name: "Clay Vase",                  // VARCHAR(255)
+  description: "Hand-thrown vase",    // TEXT
+  category: "Vase",                   // VARCHAR(100)
+  price: 29.99,                       // DECIMAL(10,2)
+  quantity: 5,                        // INT
+  status: "available",                // VARCHAR(50) or ENUM
+  imageUrl: "/images/vase1.jpg",      // VARCHAR(500)
+  createdAt: "2025-11-14T10:30:00Z",  // TIMESTAMP
+  updatedAt: "2025-11-14T10:30:00Z",  // TIMESTAMP
+  createdBy: "user123"                // VARCHAR(100) - future foreign key
+};
+
+// Inventory Transaction Model
+const inventoryTransaction = {
+  id: 1,                              // PRIMARY KEY
+  potteryItemId: 1,                   // FOREIGN KEY to potteryItem.id
+  type: "sale",                       // VARCHAR(50) - 'sale', 'restock', 'damage'
+  quantity: -1,                       // INT (negative for sale, positive for restock)
+  notes: "Sold to customer",          // TEXT
+  transactionDate: "2025-11-14T14:00:00Z", // TIMESTAMP
+  createdBy: "user123"                // VARCHAR(100) - future foreign key
+};
+
+// User Model (for future multi-user support)
+const user = {
+  id: "user123",                      // PRIMARY KEY VARCHAR(100)
+  username: "potter1",                // VARCHAR(100) UNIQUE
+  email: "potter@example.com",        // VARCHAR(255) UNIQUE
+  role: "admin",                      // VARCHAR(50) - 'admin', 'user'
+  createdAt: "2025-11-14T10:00:00Z",  // TIMESTAMP
+  lastLogin: "2025-11-14T10:00:00Z"   // TIMESTAMP
+};
+```
+
+### LocalStorage Service Pattern
+
+Create service files to abstract localStorage operations:
+
+```javascript
+// src/services/potteryService.js
+/**
+ * Service for managing pottery items in localStorage
+ */
+const STORAGE_KEY = 'potteryItems';
+
+export const potteryService = {
+  // Get all pottery items
+  getAll() {
+    const data = localStorage.getItem(STORAGE_KEY);
+    return data ? JSON.parse(data) : [];
+  },
+
+  // Get pottery item by ID
+  getById(id) {
+    const items = this.getAll();
+    return items.find(item => item.id === id);
+  },
+
+  // Create new pottery item
+  create(itemData) {
+    const items = this.getAll();
+    const newItem = {
+      ...itemData,
+      id: Date.now(), // Simple ID generation
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+    items.push(newItem);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+    return newItem;
+  },
+
+  // Update pottery item
+  update(id, updates) {
+    const items = this.getAll();
+    const index = items.findIndex(item => item.id === id);
+    if (index !== -1) {
+      items[index] = {
+        ...items[index],
+        ...updates,
+        updatedAt: new Date().toISOString()
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+      return items[index];
+    }
+    return null;
+  },
+
+  // Delete pottery item
+  delete(id) {
+    const items = this.getAll();
+    const filtered = items.filter(item => item.id !== id);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(filtered));
+    return true;
+  }
+};
+```
+
+### Future Migration Path
+
+When migrating to SQL database with Java backend:
+
+1. **Replace localStorage calls** with API calls to Java backend
+2. **Keep the same data model structure** (already SQL-compatible)
+3. **Update service files** to use fetch/axios instead of localStorage
+4. **Add API endpoints** in Java (Spring Boot) matching service methods
+5. **Create SQL tables** from the documented data models
+6. **Implement data migration** script to move localStorage data to database
+
+Example future API call:
+```javascript
+// Future: API call instead of localStorage
+async getAll() {
+  const response = await fetch('/api/pottery-items');
+  return response.json();
+}
 ```
 
 ---
 
 ## Build and Deployment
 
-### Development Build
+### Development Server
 
 ```bash
-# To be defined
-# Examples:
-# npm run dev
-# python manage.py runserver
-# cargo run
+# Start development server (with hot reload)
+npm start
+
+# Server will run on http://localhost:3000
+# Auto-opens in browser
+# Hot reload enabled - changes reflect immediately
 ```
 
 ### Production Build
 
 ```bash
-# To be defined
-# Examples:
-# npm run build
-# python setup.py build
-# cargo build --release
+# Create optimized production build
+npm run build
+
+# Output will be in the 'build/' directory
+# Contains minified, optimized static files
+# Ready for deployment to any static hosting service
+```
+
+### Linting and Code Quality
+
+```bash
+# Run ESLint (if configured)
+npm run lint
+
+# Fix auto-fixable issues
+npm run lint -- --fix
+```
+
+### Deployment Options
+
+Since this is a frontend-only app with localStorage:
+
+**Option 1: GitHub Pages**
+```bash
+npm run build
+# Deploy build/ folder to gh-pages branch
+```
+
+**Option 2: Netlify/Vercel**
+- Connect GitHub repository
+- Set build command: `npm run build`
+- Set publish directory: `build`
+- Deploy automatically on push
+
+**Option 3: Simple HTTP Server**
+```bash
+npm run build
+npx serve -s build
+# Runs on http://localhost:3000
 ```
 
 ### Deployment Process
 
-1. Run all tests
-2. Create production build
-3. Run deployment scripts
-4. Verify deployment
-5. Monitor for errors
+1. Run all tests: `npm test`
+2. Create production build: `npm run build`
+3. Test production build locally: `npx serve -s build`
+4. Deploy to chosen hosting service
+5. Verify deployment
+6. Test functionality in production
 
 ---
 
@@ -359,17 +676,56 @@ Document key data models and relationships:
 
 ### Technology Stack
 
-**To be determined as project develops**
+**Current Stack:**
+- **Frontend Framework:** React 18+
+- **Language:** JavaScript (JSX)
+- **Build Tool:** Create React App (or Vite)
+- **Data Storage:** Browser LocalStorage
+- **Testing:** Jest + React Testing Library
+- **Styling:** CSS (plain CSS or CSS Modules)
+- **State Management:** React Context API + useState
 
-Potential stacks based on project needs:
-- Frontend: React, Vue, Angular, Svelte
-- Backend: Node.js, Python (Django/Flask), Ruby (Rails), Go, Rust
-- Database: PostgreSQL, MySQL, MongoDB, SQLite
-- Testing: Jest, Pytest, Mocha, etc.
+**Future Stack (Migration Path):**
+- **Backend:** Java (Spring Boot)
+- **Database:** SQL (PostgreSQL or MySQL)
+- **API:** RESTful API
+- **Authentication:** JWT or Spring Security
 
 ### Key Features
 
-**To be documented as features are implemented**
+**Planned Features:**
+- Pottery inventory management
+- Add/Edit/Delete pottery items
+- View pottery catalog
+- Track inventory quantities
+- Search and filter functionality
+- Responsive design for mobile/desktop
+
+**To be implemented based on requirements**
+
+### Code Philosophy for Junior Developers
+
+This project prioritizes:
+
+1. **Readability over Cleverness**
+   - Clear variable names over short ones
+   - Explicit code flow over advanced patterns
+   - Comments explaining "why" for learning
+
+2. **Simplicity over Complexity**
+   - Start with simple solutions
+   - Add complexity only when needed
+   - Avoid premature optimization
+
+3. **Consistency over Perfection**
+   - Follow established patterns
+   - Consistent file structure
+   - Uniform naming conventions
+
+4. **Learning Opportunities**
+   - Well-commented examples
+   - Clear separation of concerns
+   - Gradual introduction of React concepts
 
 ### Known Issues
 
@@ -377,7 +733,16 @@ Potential stacks based on project needs:
 
 ### Performance Considerations
 
-**To be documented based on project requirements**
+**Current (LocalStorage):**
+- LocalStorage has ~5-10MB limit (varies by browser)
+- Synchronous operations - acceptable for small datasets
+- Consider pagination if item count exceeds 1000
+
+**Future (SQL Database):**
+- Implement pagination for large datasets
+- Add caching strategies
+- Optimize database queries with indexes
+- Consider lazy loading for images
 
 ---
 
@@ -409,6 +774,14 @@ Potential stacks based on project needs:
 
 ### Version History
 
+- **v0.2.0** (2025-11-14): Updated with React tech stack
+  - Specified React + JSX + LocalStorage stack
+  - Added detailed data model guidelines for SQL compatibility
+  - Included localStorage service pattern examples
+  - Added React-specific coding standards for junior developers
+  - Documented future migration path to Java backend
+  - Added testing guidelines for React Testing Library
+
 - **v0.1.0** (2025-11-14): Initial CLAUDE.md creation
   - Created comprehensive template for AI assistant guidance
   - Established coding standards and workflows
@@ -433,11 +806,21 @@ git add <files>                    # Stage changes
 git commit -m "type: message"      # Commit changes
 git push -u origin <branch>        # Push to remote
 
-# Development (to be updated)
-# [build command]
-# [test command]
-# [lint command]
-# [format command]
+# React Development
+npm install                        # Install dependencies
+npm start                          # Start development server (http://localhost:3000)
+npm test                          # Run tests in watch mode
+npm run build                     # Create production build
+npm run lint                      # Run linter (if configured)
+
+# Testing
+npm test -- --coverage            # Run tests with coverage report
+npm test -- ComponentName         # Run specific test file
+
+# Useful utilities
+npx serve -s build                # Serve production build locally
+npm outdated                      # Check for outdated dependencies
+npm audit                         # Check for security vulnerabilities
 ```
 
 ---
