@@ -27,6 +27,18 @@ export function hasData() {
 }
 
 /**
+ * Clear all data from localStorage
+ * Useful for resetting the app to a clean state
+ */
+export function clearAllData() {
+  localStorage.removeItem('clayTypes');
+  localStorage.removeItem('glazes');
+  localStorage.removeItem('potteryPieces');
+  localStorage.removeItem('potteryPieceGlazes');
+  console.log('All data cleared from localStorage');
+}
+
+/**
  * Populate the app with sample data
  * This helps users understand how the app works
  */

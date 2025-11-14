@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import PotteryList from './components/pottery/PotteryList';
 import Button from './components/common/Button';
-import { hasData, seedSampleData } from './services/seedData';
+import { hasData, seedSampleData, clearAllData } from './services/seedData';
 
 /**
  * Main App component
@@ -23,8 +23,10 @@ function App() {
   /**
    * Load sample data into the app
    * This helps users understand how the app works
+   * Clears existing data first to ensure fresh sample data
    */
   const handleLoadSampleData = () => {
+    clearAllData(); // Clear any existing data first
     seedSampleData();
     setDataExists(true);
     setShowData(true);
@@ -36,8 +38,17 @@ function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <h1>🏺 Pottery Management System</h1>
-        <p>Track your pottery pieces from thrown to fired</p>
+        <div className="header-content">
+          <div className="header-text">
+            <h1>🏺 Pottery Management System</h1>
+            <p>Track your pottery pieces from thrown to fired</p>
+          </div>
+          {dataExists && (
+            <Button onClick={handleLoadSampleData} variant="secondary">
+              Reset Sample Data
+            </Button>
+          )}
+        </div>
       </header>
 
       <main className="app-main">
@@ -47,7 +58,7 @@ function App() {
             <p>Get started by loading sample data to see how the app works.</p>
             <p>Sample data includes:</p>
             <ul>
-              <li>3 types of clay (Earthenware, Stoneware, Porcelain)</li>
+              <li>5 types of clay (Earthenware, Stoneware, Porcelain, B-Mix 5, B-Mix 10)</li>
               <li>4 glazes with different temperatures and finishes</li>
               <li>5 pottery pieces in various stages of completion</li>
             </ul>
