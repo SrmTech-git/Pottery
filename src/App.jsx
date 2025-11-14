@@ -33,9 +33,6 @@ function App() {
     seedSampleData();
     setDataExists(true);
     setShowData(true);
-    // Force a re-render of the PotteryList by toggling showData
-    setShowData(false);
-    setTimeout(() => setShowData(true), 0);
   };
 
   return (
@@ -78,9 +75,9 @@ function App() {
 
         {showData && (
           <>
-            <Dashboard key={`dashboard-${Date.now()}`} />
-            <KanbanBoard key={`kanban-${Date.now()}`} />
-            <PotteryList key={Date.now()} />
+            <Dashboard />
+            <KanbanBoard />
+            <PotteryList />
           </>
         )}
       </main>

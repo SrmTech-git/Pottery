@@ -22,6 +22,17 @@ function Dashboard() {
   // Load data and calculate stats when component mounts
   useEffect(() => {
     calculateStats();
+
+    // Listen for data changes from other components
+    const handleDataChange = () => {
+      calculateStats();
+    };
+
+    window.addEventListener('potteryDataChanged', handleDataChange);
+
+    return () => {
+      window.removeEventListener('potteryDataChanged', handleDataChange);
+    };
   }, []);
 
   /**

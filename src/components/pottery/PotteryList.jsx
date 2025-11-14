@@ -29,6 +29,17 @@ function PotteryList() {
   // Load pottery pieces when component mounts
   useEffect(() => {
     loadPieces();
+
+    // Listen for data changes from other components
+    const handleDataChange = () => {
+      loadPieces();
+    };
+
+    window.addEventListener('potteryDataChanged', handleDataChange);
+
+    return () => {
+      window.removeEventListener('potteryDataChanged', handleDataChange);
+    };
   }, []);
 
   /**

@@ -86,9 +86,17 @@ function KanbanBoard() {
       ...(newStatus === POTTERY_STATUS.FIRED && { firedDate: new Date().toISOString() })
     };
 
+    // Update the piece in localStorage
     updatePotteryPiece(draggedPiece.id, updatedPiece);
+
+    // Clear drag state
     setDraggedPiece(null);
-    loadPieces(); // Reload to reflect changes
+
+    // Reload pieces to reflect changes
+    loadPieces();
+
+    // Dispatch custom event to notify other components
+    window.dispatchEvent(new CustomEvent('potteryDataChanged'));
   };
 
   // Icon mapping for each status
