@@ -24,15 +24,15 @@ test('renders welcome message', () => {
   render(<App />);
 
   // Assert: Check if welcome message is present
-  const welcomeElement = screen.getByText(/Getting Started/i);
+  const welcomeElement = screen.getByText(/Welcome!/i);
   expect(welcomeElement).toBeInTheDocument();
 });
 
-test('displays feature list', () => {
+test('displays load sample data button', () => {
   // Arrange & Act: Render the App component
   render(<App />);
 
-  // Assert: Check if at least one feature is listed
-  const featureElement = screen.getByText(/Add and manage pottery items/i);
-  expect(featureElement).toBeInTheDocument();
+  // Assert: Check if the load sample data button is present
+  const buttonElement = screen.getByText(/Load Sample Data/i);
+  expect(buttonElement).toBeInTheDocument();
 });

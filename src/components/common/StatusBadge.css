@@ -1,0 +1,38 @@
+/* StatusBadge styles */
+
+.status-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Different colors for each status */
+.status-thrown {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+.status-leather-dry {
+  background-color: #fff3e0;
+  color: #f57c00;
+}
+
+.status-bisque-fired {
+  background-color: #fce4ec;
+  color: #c2185b;
+}
+
+.status-glazed {
+  background-color: #f3e5f5;
+  color: #7b1fa2;
+}
+
+.status-fired {
+  background-color: #c8e6c9;
+  color: #388e3c;
+  font-weight: 700;
+}

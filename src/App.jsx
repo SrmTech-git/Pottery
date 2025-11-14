@@ -1,30 +1,67 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
+import PotteryList from './components/pottery/PotteryList';
+import Button from './components/common/Button';
+import { hasData, seedSampleData } from './services/seedData';
 
 /**
  * Main App component
  * This is the root component that contains the entire application
  */
 function App() {
+  // Track whether we have data and need to refresh the list
+  const [showData, setShowData] = useState(false);
+  const [dataExists, setDataExists] = useState(false);
+
+  // Check if data exists when component mounts
+  useEffect(() => {
+    const exists = hasData();
+    setDataExists(exists);
+    setShowData(exists);
+  }, []);
+
+  /**
+   * Load sample data into the app
+   * This helps users understand how the app works
+   */
+  const handleLoadSampleData = () => {
+    seedSampleData();
+    setDataExists(true);
+    setShowData(true);
+    // Force a re-render of the PotteryList by toggling showData
+    setShowData(false);
+    setTimeout(() => setShowData(true), 0);
+  };
+
   return (
     <div className="app">
       <header className="app-header">
         <h1>🏺 Pottery Management System</h1>
-        <p>Welcome to your pottery inventory manager</p>
+        <p>Track your pottery pieces from thrown to fired</p>
       </header>
 
       <main className="app-main">
-        <div className="welcome-message">
-          <h2>Getting Started</h2>
-          <p>This is your pottery management application.</p>
-          <p>Features coming soon:</p>
-          <ul>
-            <li>Add and manage pottery items</li>
-            <li>Track inventory quantities</li>
-            <li>Search and filter items</li>
-            <li>View detailed pottery catalog</li>
-          </ul>
-        </div>
+        {!dataExists && (
+          <div className="welcome-message">
+            <h2>Welcome!</h2>
+            <p>Get started by loading sample data to see how the app works.</p>
+            <p>Sample data includes:</p>
+            <ul>
+              <li>3 types of clay (Earthenware, Stoneware, Porcelain)</li>
+              <li>4 glazes with different temperatures and finishes</li>
+              <li>5 pottery pieces in various stages of completion</li>
+            </ul>
+            <div className="welcome-actions">
+              <Button onClick={handleLoadSampleData}>
+                Load Sample Data
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {showData && (
+          <PotteryList key={Date.now()} />
+        )}
       </main>
 
       <footer className="app-footer">

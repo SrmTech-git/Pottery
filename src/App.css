@@ -68,6 +68,11 @@
   color: #555;
 }
 
+.welcome-actions {
+  margin-top: 2rem;
+  text-align: center;
+}
+
 /* Footer styles */
 .app-footer {
   background-color: #2c3e50;
