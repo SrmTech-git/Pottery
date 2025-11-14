@@ -33,17 +33,21 @@ function KanbanBoard() {
    * Handle drag start event
    */
   const handleDragStart = (e, piece) => {
+    e.stopPropagation();
     setDraggedPiece(piece);
+    // Store the piece ID in dataTransfer
+    e.dataTransfer.setData('text/plain', piece.id.toString());
     e.dataTransfer.effectAllowed = 'move';
-    // Add a slight opacity to the dragged card
-    e.currentTarget.style.opacity = '0.5';
+    // Add a class instead of directly modifying style
+    e.currentTarget.classList.add('dragging');
   };
 
   /**
    * Handle drag end event
    */
   const handleDragEnd = (e) => {
-    e.currentTarget.style.opacity = '1';
+    e.stopPropagation();
+    e.currentTarget.classList.remove('dragging');
     setDraggedPiece(null);
   };
 
@@ -52,6 +56,7 @@ function KanbanBoard() {
    */
   const handleDragOver = (e) => {
     e.preventDefault();
+    e.stopPropagation();
     e.dataTransfer.dropEffect = 'move';
   };
 
@@ -60,11 +65,13 @@ function KanbanBoard() {
    */
   const handleDrop = (e, newStatus) => {
     e.preventDefault();
+    e.stopPropagation();
 
     if (!draggedPiece) return;
 
     // Don't update if dropped in same column
     if (draggedPiece.status === newStatus) {
+      setDraggedPiece(null);
       return;
     }
 
@@ -80,6 +87,7 @@ function KanbanBoard() {
     };
 
     updatePotteryPiece(draggedPiece.id, updatedPiece);
+    setDraggedPiece(null);
     loadPieces(); // Reload to reflect changes
   };
 
@@ -144,7 +152,7 @@ function KanbanBoard() {
                     <div
                       key={piece.id}
                       className="kanban-card"
-                      draggable
+                      draggable={true}
                       onDragStart={(e) => handleDragStart(e, piece)}
                       onDragEnd={handleDragEnd}
                     >

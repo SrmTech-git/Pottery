@@ -120,6 +120,10 @@
   cursor: grab;
   transition: all 0.2s;
   box-shadow: 0 1px 3px var(--shadow-color);
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 .kanban-card:hover {
@@ -130,6 +134,12 @@
 
 .kanban-card:active {
   cursor: grabbing;
+}
+
+.kanban-card.dragging {
+  opacity: 0.5;
+  transform: scale(0.95);
+  box-shadow: 0 8px 16px var(--shadow-color);
 }
 
 .kanban-card-header {
