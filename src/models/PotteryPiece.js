@@ -116,3 +116,20 @@ export function getNextStatus(currentStatus) {
 export function isPieceComplete(piece) {
   return piece.status === POTTERY_STATUS.FIRED;
 }
+
+/**
+ * Helper function to get progress percentage based on status
+ * @param {string} status - The current status
+ * @returns {number} Progress percentage (0-100)
+ */
+export function getProgressPercentage(status) {
+  const progressMap = {
+    [POTTERY_STATUS.THROWN]: 20,
+    [POTTERY_STATUS.LEATHER_DRY]: 40,
+    [POTTERY_STATUS.BISQUE_FIRED]: 60,
+    [POTTERY_STATUS.GLAZED]: 80,
+    [POTTERY_STATUS.FIRED]: 100
+  };
+
+  return progressMap[status] || 0;
+}

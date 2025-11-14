@@ -3,10 +3,12 @@ import './PotteryList.css';
 import StatusBadge from '../common/StatusBadge';
 import Button from '../common/Button';
 import Modal from '../common/Modal';
+import ProgressBar from '../common/ProgressBar';
 import PotteryForm from './PotteryForm';
 import { getAllPotteryPieces } from '../../services/potteryPieceService';
 import { getClayTypeById } from '../../services/clayTypeService';
 import { getGlazesForPiece } from '../../services/potteryPieceGlazeService';
+import { getProgressPercentage } from '../../models/PotteryPiece';
 
 /**
  * PotteryList Component
@@ -202,6 +204,9 @@ function PotteryList() {
                     </div>
                   )}
                 </div>
+
+                {/* Progress bar showing completion status */}
+                <ProgressBar percentage={getProgressPercentage(piece.status)} />
               </div>
             );
           })}
