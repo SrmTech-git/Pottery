@@ -1,6 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPalette, faScissors, faFire, faDroplet, faStar } from '@fortawesome/free-solid-svg-icons';
+import { faHands, faHammer, faFire, faDroplet, faStar } from '@fortawesome/free-solid-svg-icons';
 import './StatusSelector.css';
 import { POTTERY_STATUS, STATUS_DISPLAY_NAMES } from '../../models/PotteryPiece';
 
@@ -17,8 +17,8 @@ import { POTTERY_STATUS, STATUS_DISPLAY_NAMES } from '../../models/PotteryPiece'
 function StatusSelector({ selectedStatus, onStatusChange }) {
   // Icon mapping for each status (using FontAwesome icons)
   const statusIcons = {
-    [POTTERY_STATUS.THROWN]: faPalette,           // Freshly created
-    [POTTERY_STATUS.LEATHER_DRY]: faScissors,     // Ready to trim
+    [POTTERY_STATUS.THROWN]: faHands,             // Hands working the clay
+    [POTTERY_STATUS.LEATHER_DRY]: faHammer,       // Trimming tools
     [POTTERY_STATUS.BISQUE_FIRED]: faFire,        // First firing
     [POTTERY_STATUS.GLAZED]: faDroplet,           // Glaze applied
     [POTTERY_STATUS.FIRED]: faStar                // Complete!
