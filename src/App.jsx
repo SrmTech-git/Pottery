@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import Dashboard from './components/dashboard/Dashboard';
 import PotteryList from './components/pottery/PotteryList';
 import Button from './components/common/Button';
 import ThemeToggle from './components/common/ThemeToggle';
@@ -75,7 +76,10 @@ function App() {
         )}
 
         {showData && (
-          <PotteryList key={Date.now()} />
+          <>
+            <Dashboard key={`dashboard-${Date.now()}`} />
+            <PotteryList key={Date.now()} />
+          </>
         )}
       </main>
 
