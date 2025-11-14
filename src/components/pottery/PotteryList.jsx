@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './PotteryList.css';
 import StatusBadge from '../common/StatusBadge';
+import Button from '../common/Button';
+import Modal from '../common/Modal';
+import PotteryForm from './PotteryForm';
 import { getAllPotteryPieces } from '../../services/potteryPieceService';
 import { getClayTypeById } from '../../services/clayTypeService';
 import { getGlazesForPiece } from '../../services/potteryPieceGlazeService';
@@ -15,6 +18,9 @@ function PotteryList() {
   // State to hold the pottery pieces
   const [pieces, setPieces] = useState([]);
 
+  // Modal state
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   // Load pottery pieces when component mounts
   useEffect(() => {
     loadPieces();
@@ -26,6 +32,28 @@ function PotteryList() {
   const loadPieces = () => {
     const allPieces = getAllPotteryPieces();
     setPieces(allPieces);
+  };
+
+  /**
+   * Open the add new piece modal
+   */
+  const handleAddClick = () => {
+    setIsModalOpen(true);
+  };
+
+  /**
+   * Close the modal
+   */
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  /**
+   * Handle successful piece creation
+   */
+  const handlePieceCreated = () => {
+    loadPieces(); // Reload the list
+    setIsModalOpen(false); // Close the modal
   };
 
   /**
@@ -66,8 +94,13 @@ function PotteryList() {
   return (
     <div className="pottery-list">
       <div className="pottery-list-header">
-        <h2>Pottery Pieces</h2>
-        <p className="piece-count">{pieces.length} piece{pieces.length !== 1 ? 's' : ''}</p>
+        <div className="header-left">
+          <h2>Pottery Pieces</h2>
+          <p className="piece-count">{pieces.length} piece{pieces.length !== 1 ? 's' : ''}</p>
+        </div>
+        <Button onClick={handleAddClick}>
+          + Add New Piece
+        </Button>
       </div>
 
       {pieces.length === 0 ? (
@@ -151,6 +184,18 @@ function PotteryList() {
           })}
         </div>
       )}
+
+      {/* Modal for adding new piece */}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        title="Add New Pottery Piece"
+      >
+        <PotteryForm
+          onSuccess={handlePieceCreated}
+          onCancel={handleCloseModal}
+        />
+      </Modal>
     </div>
   );
 }
