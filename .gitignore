@@ -1,0 +1,186 @@
+# Pottery - Git Ignore File
+
+# === Operating System Files ===
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# === Editor and IDE Files ===
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# === Environment and Secrets ===
+.env
+.env.local
+.env.*.local
+.env.development
+.env.production
+*.pem
+*.key
+secrets/
+credentials/
+
+# === Node.js / JavaScript / TypeScript ===
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+.npm
+.eslintcache
+.node_repl_history
+*.tgz
+.yarn-integrity
+dist/
+build/
+coverage/
+.next/
+.nuxt/
+.cache/
+.parcel-cache/
+
+# === Python ===
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+pip-log.txt
+pip-delete-this-directory.txt
+.pytest_cache/
+.coverage
+htmlcov/
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+*.manifest
+*.spec
+
+# === Java ===
+*.class
+*.jar
+*.war
+*.ear
+target/
+.gradle/
+build/
+gradle-app.setting
+.gradletasknamecache
+
+# === Ruby ===
+*.gem
+*.rbc
+/.config
+/coverage/
+/InstalledFiles
+/pkg/
+/spec/reports/
+/test/tmp/
+/test/version_tmp/
+/tmp/
+.bundle/
+vendor/bundle
+
+# === Go ===
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+go.work
+
+# === Rust ===
+target/
+Cargo.lock
+**/*.rs.bk
+
+# === C / C++ ===
+*.o
+*.a
+*.out
+*.obj
+*.exe
+*.dll
+*.so
+*.dylib
+
+# === Databases ===
+*.sqlite
+*.sqlite3
+*.db
+*.db-shm
+*.db-wal
+
+# === Logs ===
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# === Testing ===
+coverage/
+.nyc_output/
+test-results/
+playwright-report/
+*.lcov
+
+# === Build Artifacts ===
+dist/
+build/
+out/
+.output/
+.vercel/
+.netlify/
+
+# === Temporary Files ===
+tmp/
+temp/
+*.tmp
+*.bak
+*.backup
+*.orig
+
+# === Cloud and Deployment ===
+.serverless/
+.terraform/
+*.tfstate
+*.tfstate.backup
+
+# === Documentation ===
+# Keep documentation, but ignore generated docs
+# docs/_build/
+# docs/.doctrees/
+
+# === Archives ===
+*.zip
+*.tar.gz
+*.rar
+
+# === Project-Specific ===
+# Add project-specific ignores below this line
