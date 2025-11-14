@@ -3,6 +3,7 @@ import './PotteryList.css';
 import StatusBadge from '../common/StatusBadge';
 import { getAllPotteryPieces } from '../../services/potteryPieceService';
 import { getClayTypeById } from '../../services/clayTypeService';
+import { getGlazesForPiece } from '../../services/potteryPieceGlazeService';
 
 /**
  * PotteryList Component
@@ -38,6 +39,15 @@ function PotteryList() {
   };
 
   /**
+   * Get glazes used on a piece
+   * @param {number} pieceId - The pottery piece ID
+   * @returns {Array} Array of glaze objects with application details
+   */
+  const getGlazesForAPiece = (pieceId) => {
+    return getGlazesForPiece(pieceId);
+  };
+
+  /**
    * Format a date string to be more readable
    * @param {string} dateString - ISO date string
    * @returns {string} Formatted date (e.g., "Nov 14, 2025")
@@ -67,45 +77,78 @@ function PotteryList() {
         </div>
       ) : (
         <div className="pottery-grid">
-          {pieces.map(piece => (
-            <div key={piece.id} className="pottery-card">
-              <div className="pottery-card-header">
-                <h3>{piece.name}</h3>
-                <StatusBadge status={piece.status} />
-              </div>
+          {pieces.map(piece => {
+            // Get glazes for this piece
+            const glazes = getGlazesForAPiece(piece.id);
 
-              <div className="pottery-card-body">
-                <div className="pottery-detail">
-                  <span className="detail-label">Form:</span>
-                  <span className="detail-value">{piece.formType || 'N/A'}</span>
+            return (
+              <div key={piece.id} className="pottery-card">
+                <div className="pottery-card-header">
+                  <h3>{piece.name}</h3>
+                  <StatusBadge status={piece.status} />
                 </div>
 
-                <div className="pottery-detail">
-                  <span className="detail-label">Clay:</span>
-                  <span className="detail-value">{getClayTypeName(piece.clayTypeId)}</span>
+                {/* Image section - shows image or placeholder */}
+                <div className="pottery-card-image">
+                  {piece.imageUrl ? (
+                    <img src={piece.imageUrl} alt={piece.name} />
+                  ) : (
+                    <div className="image-placeholder">
+                      <span>No Image</span>
+                    </div>
+                  )}
                 </div>
 
-                <div className="pottery-detail">
-                  <span className="detail-label">Size:</span>
-                  <span className="detail-value">
-                    {piece.height}" H × {piece.width}" W
-                  </span>
-                </div>
-
-                <div className="pottery-detail">
-                  <span className="detail-label">Created:</span>
-                  <span className="detail-value">{formatDate(piece.thrownDate)}</span>
-                </div>
-
-                {piece.notes && (
-                  <div className="pottery-notes">
-                    <span className="detail-label">Notes:</span>
-                    <p>{piece.notes}</p>
+                <div className="pottery-card-body">
+                  <div className="pottery-detail">
+                    <span className="detail-label">Form:</span>
+                    <span className="detail-value">{piece.formType || 'N/A'}</span>
                   </div>
-                )}
+
+                  <div className="pottery-detail">
+                    <span className="detail-label">Clay:</span>
+                    <span className="detail-value">{getClayTypeName(piece.clayTypeId)}</span>
+                  </div>
+
+                  <div className="pottery-detail">
+                    <span className="detail-label">Size:</span>
+                    <span className="detail-value">
+                      {piece.height}" H × {piece.width}" W
+                    </span>
+                  </div>
+
+                  {/* Glazes section */}
+                  {glazes.length > 0 && (
+                    <div className="pottery-detail">
+                      <span className="detail-label">Glazes:</span>
+                      <span className="detail-value">
+                        {glazes.map((glaze, index) => (
+                          <span key={glaze.relationshipId}>
+                            {glaze.name}
+                            {glaze.applicationDetails?.applicationArea !== 'full' &&
+                              ` (${glaze.applicationDetails.applicationArea})`}
+                            {index < glazes.length - 1 ? ', ' : ''}
+                          </span>
+                        ))}
+                      </span>
+                    </div>
+                  )}
+
+                  <div className="pottery-detail">
+                    <span className="detail-label">Created:</span>
+                    <span className="detail-value">{formatDate(piece.thrownDate)}</span>
+                  </div>
+
+                  {piece.notes && (
+                    <div className="pottery-notes">
+                      <span className="detail-label">Notes:</span>
+                      <p>{piece.notes}</p>
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>
