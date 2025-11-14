@@ -82,6 +82,30 @@
   color: #333;
 }
 
+.card-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.edit-button {
+  background: #667eea;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.edit-button:hover {
+  background: #5568d3;
+  transform: translateY(-1px);
+}
+
 /* Image section */
 .pottery-card-image {
   width: 100%;

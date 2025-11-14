@@ -6,20 +6,22 @@ import { POTTERY_STATUS } from '../../models/PotteryPiece';
 import { APPLICATION_METHOD, APPLICATION_AREA } from '../../models/PotteryPieceGlaze';
 import { getAllClayTypes } from '../../services/clayTypeService';
 import { getAllGlazes } from '../../services/glazeService';
-import { createNewPotteryPiece } from '../../services/potteryPieceService';
-import { addGlazeToPiece } from '../../services/potteryPieceGlazeService';
+import { createNewPotteryPiece, updatePotteryPiece } from '../../services/potteryPieceService';
+import { addGlazeToPiece, getGlazesForPiece, removeAllGlazesFromPiece } from '../../services/potteryPieceGlazeService';
 
 /**
  * PotteryForm Component
  *
- * Form for creating a new pottery piece.
+ * Form for creating or editing a pottery piece.
  * Includes all necessary fields with validation.
  *
  * @param {Object} props - Component props
- * @param {function} props.onSuccess - Called when piece is successfully created
+ * @param {Object} props.piece - Optional piece to edit (null for new piece)
+ * @param {function} props.onSuccess - Called when piece is successfully created/updated
  * @param {function} props.onCancel - Called when user cancels
  */
-function PotteryForm({ onSuccess, onCancel }) {
+function PotteryForm({ piece, onSuccess, onCancel }) {
+  const isEditMode = !!piece;
   // Form state
   const [formData, setFormData] = useState({
     name: '',
@@ -48,11 +50,36 @@ function PotteryForm({ onSuccess, onCancel }) {
     const glazes = getAllGlazes();
     setAvailableGlazes(glazes);
 
-    // Pre-select first clay type if available
-    if (types.length > 0 && !formData.clayTypeId) {
+    // If editing, populate form with piece data
+    if (isEditMode && piece) {
+      setFormData({
+        name: piece.name || '',
+        clayTypeId: piece.clayTypeId || '',
+        status: piece.status || POTTERY_STATUS.THROWN,
+        formType: piece.formType || '',
+        height: piece.height || '',
+        width: piece.width || '',
+        weight: piece.weight || '',
+        notes: piece.notes || '',
+        imageUrl: piece.imageUrl || ''
+      });
+
+      // Load existing glazes for the piece
+      const existingGlazes = getGlazesForPiece(piece.id);
+      const glazeData = existingGlazes.map(glaze => ({
+        glazeId: glaze.id,
+        glazeName: glaze.name,
+        applicationMethod: glaze.applicationDetails.applicationMethod,
+        applicationArea: glaze.applicationDetails.applicationArea,
+        layers: glaze.applicationDetails.layers
+      }));
+      setSelectedGlazes(glazeData);
+    } else if (types.length > 0 && !formData.clayTypeId) {
+      // Pre-select first clay type if available (for new pieces)
       setFormData(prev => ({ ...prev, clayTypeId: types[0].id }));
     }
-  }, [formData.clayTypeId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [piece, isEditMode]); // Only run when piece changes
 
   /**
    * Handle input changes
@@ -123,23 +150,43 @@ function PotteryForm({ onSuccess, onCancel }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Create the new pottery piece
-    const newPiece = createNewPotteryPiece({
-      name: formData.name,
-      clayTypeId: parseInt(formData.clayTypeId),
-      status: formData.status,
-      formType: formData.formType,
-      height: parseFloat(formData.height) || 0,
-      width: parseFloat(formData.width) || 0,
-      weight: parseFloat(formData.weight) || 0,
-      notes: formData.notes,
-      imageUrl: formData.imageUrl
-    });
+    let updatedPiece;
+
+    if (isEditMode) {
+      // Update existing piece
+      updatedPiece = updatePotteryPiece(piece.id, {
+        name: formData.name,
+        clayTypeId: parseInt(formData.clayTypeId),
+        status: formData.status,
+        formType: formData.formType,
+        height: parseFloat(formData.height) || 0,
+        width: parseFloat(formData.width) || 0,
+        weight: parseFloat(formData.weight) || 0,
+        notes: formData.notes,
+        imageUrl: formData.imageUrl
+      });
+
+      // Remove all existing glazes and re-add the selected ones
+      removeAllGlazesFromPiece(piece.id);
+    } else {
+      // Create new pottery piece
+      updatedPiece = createNewPotteryPiece({
+        name: formData.name,
+        clayTypeId: parseInt(formData.clayTypeId),
+        status: formData.status,
+        formType: formData.formType,
+        height: parseFloat(formData.height) || 0,
+        width: parseFloat(formData.width) || 0,
+        weight: parseFloat(formData.weight) || 0,
+        notes: formData.notes,
+        imageUrl: formData.imageUrl
+      });
+    }
 
     // Add glazes to the piece
     selectedGlazes.forEach(glaze => {
       addGlazeToPiece({
-        potteryPieceId: newPiece.id,
+        potteryPieceId: updatedPiece.id,
         glazeId: parseInt(glaze.glazeId),
         applicationMethod: glaze.applicationMethod,
         applicationArea: glaze.applicationArea,
@@ -148,7 +195,7 @@ function PotteryForm({ onSuccess, onCancel }) {
     });
 
     // Call success callback
-    onSuccess(newPiece);
+    onSuccess(updatedPiece);
   };
 
   return (
@@ -377,7 +424,7 @@ function PotteryForm({ onSuccess, onCancel }) {
           Cancel
         </Button>
         <Button type="submit" variant="primary">
-          Create Piece
+          {isEditMode ? 'Update Piece' : 'Create Piece'}
         </Button>
       </div>
     </form>

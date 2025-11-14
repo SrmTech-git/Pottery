@@ -21,6 +21,9 @@ function PotteryList() {
   // Modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // Edit state - track which piece is being edited (null for new piece)
+  const [editingPiece, setEditingPiece] = useState(null);
+
   // Load pottery pieces when component mounts
   useEffect(() => {
     loadPieces();
@@ -38,6 +41,15 @@ function PotteryList() {
    * Open the add new piece modal
    */
   const handleAddClick = () => {
+    setEditingPiece(null); // Clear editing state
+    setIsModalOpen(true);
+  };
+
+  /**
+   * Open the edit piece modal
+   */
+  const handleEditClick = (piece) => {
+    setEditingPiece(piece);
     setIsModalOpen(true);
   };
 
@@ -46,14 +58,16 @@ function PotteryList() {
    */
   const handleCloseModal = () => {
     setIsModalOpen(false);
+    setEditingPiece(null); // Clear editing state
   };
 
   /**
-   * Handle successful piece creation
+   * Handle successful piece creation or update
    */
   const handlePieceCreated = () => {
     loadPieces(); // Reload the list
     setIsModalOpen(false); // Close the modal
+    setEditingPiece(null); // Clear editing state
   };
 
   /**
@@ -118,7 +132,16 @@ function PotteryList() {
               <div key={piece.id} className="pottery-card">
                 <div className="pottery-card-header">
                   <h3>{piece.name}</h3>
-                  <StatusBadge status={piece.status} />
+                  <div className="card-header-actions">
+                    <StatusBadge status={piece.status} />
+                    <button
+                      className="edit-button"
+                      onClick={() => handleEditClick(piece)}
+                      title="Edit piece"
+                    >
+                      Edit
+                    </button>
+                  </div>
                 </div>
 
                 {/* Image section - shows image or placeholder */}
@@ -185,13 +208,14 @@ function PotteryList() {
         </div>
       )}
 
-      {/* Modal for adding new piece */}
+      {/* Modal for adding/editing piece */}
       <Modal
         isOpen={isModalOpen}
         onClose={handleCloseModal}
-        title="Add New Pottery Piece"
+        title={editingPiece ? "Edit Pottery Piece" : "Add New Pottery Piece"}
       >
         <PotteryForm
+          piece={editingPiece}
           onSuccess={handlePieceCreated}
           onCancel={handleCloseModal}
         />
