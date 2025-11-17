@@ -5,6 +5,7 @@ import Button from '../common/Button';
 import Modal from '../common/Modal';
 import ProgressBar from '../common/ProgressBar';
 import ClayTooltip from '../common/ClayTooltip';
+import GlazeTooltip from '../common/GlazeTooltip';
 import PotteryForm from './PotteryForm';
 import { getAllPotteryPieces } from '../../services/potteryPieceService';
 import { getClayTypeById } from '../../services/clayTypeService';
@@ -196,9 +197,13 @@ function PotteryList() {
                       <span className="detail-value">
                         {glazes.map((glaze, index) => (
                           <span key={glaze.relationshipId}>
-                            {glaze.name}
-                            {glaze.applicationDetails?.applicationArea !== 'full' &&
-                              ` (${glaze.applicationDetails.applicationArea})`}
+                            <GlazeTooltip glaze={glaze}>
+                              <span className="glaze-name">
+                                {glaze.name}
+                                {glaze.applicationDetails?.applicationArea !== 'full' &&
+                                  ` (${glaze.applicationDetails.applicationArea})`}
+                              </span>
+                            </GlazeTooltip>
                             {index < glazes.length - 1 ? ', ' : ''}
                           </span>
                         ))}
