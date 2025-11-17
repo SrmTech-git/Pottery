@@ -9,7 +9,7 @@ import { createNewClayType } from './clayTypeService';
 import { createNewGlaze } from './glazeService';
 import { createNewPotteryPiece } from './potteryPieceService';
 import { addGlazeToPiece } from './potteryPieceGlazeService';
-import { CLAY_COLORS, CONE_NUMBERS, TEMPERATURE } from '../models/ClayType';
+import { CLAY_COLORS, CONE_NUMBERS } from '../models/ClayType';
 import { GLAZE_FINISH, FOOD_SAFETY } from '../models/Glaze';
 import { POTTERY_STATUS } from '../models/PotteryPiece';
 import { APPLICATION_METHOD, APPLICATION_AREA } from '../models/PotteryPieceGlaze';
@@ -79,6 +79,7 @@ export function seedSampleData() {
     notes: "Challenging but rewarding. Translucent when thin. Beautiful for fine dinnerware."
   });
 
+  // eslint-disable-next-line no-unused-vars
   const bmix5 = createNewClayType({
     manufacturer: "Laguna",
     name: "B-Mix 5 w/ Grog",
@@ -90,6 +91,7 @@ export function seedSampleData() {
     notes: "Great for beginners and professionals alike. Grog adds tooth for handbuilding."
   });
 
+  // eslint-disable-next-line no-unused-vars
   const bmix10 = createNewClayType({
     manufacturer: "Laguna",
     name: "B-Mix 10",
@@ -128,6 +130,7 @@ export function seedSampleData() {
     notes: "Part of Stone Ware series. Thicker application gives darker results. Beautiful with carved or textured surfaces."
   });
 
+  // eslint-disable-next-line no-unused-vars
   const clearGloss = createNewGlaze({
     manufacturer: "AMACO",
     name: "Clear Transparent",
