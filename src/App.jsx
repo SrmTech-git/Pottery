@@ -8,6 +8,8 @@ import GlazeManager from './components/glaze/GlazeManager';
 import Search from './components/search/Search';
 import Button from './components/common/Button';
 import ThemeToggle from './components/common/ThemeToggle';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { hasData, seedSampleData, clearAllData } from './services/seedData';
 
 /**
@@ -18,6 +20,9 @@ function App() {
   // Track whether we have data and need to refresh the list
   const [showData, setShowData] = useState(false);
   const [dataExists, setDataExists] = useState(false);
+
+  // Page navigation state
+  const [currentPage, setCurrentPage] = useState('main'); // 'main' or 'search'
 
   // Check if data exists when component mounts
   useEffect(() => {
@@ -49,11 +54,18 @@ function App() {
             <h1>🏺 Pottery Management System</h1>
             <p>Track your pottery pieces from thrown to fired</p>
           </div>
-          {dataExists && (
-            <Button onClick={handleLoadSampleData} variant="secondary">
-              Reset Sample Data
-            </Button>
-          )}
+          <div className="header-actions">
+            {dataExists && currentPage === 'main' && (
+              <Button onClick={() => setCurrentPage('search')} variant="primary">
+                <FontAwesomeIcon icon={faSearch} /> Search Pottery
+              </Button>
+            )}
+            {dataExists && (
+              <Button onClick={handleLoadSampleData} variant="secondary">
+                Reset Sample Data
+              </Button>
+            )}
+          </div>
         </div>
       </header>
 
@@ -76,15 +88,18 @@ function App() {
           </div>
         )}
 
-        {showData && (
+        {showData && currentPage === 'main' && (
           <>
             <Dashboard />
-            <Search />
             <KanbanBoard />
             <ClayManager />
             <GlazeManager />
             <PotteryList />
           </>
+        )}
+
+        {showData && currentPage === 'search' && (
+          <Search onBackClick={() => setCurrentPage('main')} />
         )}
       </main>
 

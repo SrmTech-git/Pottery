@@ -5,7 +5,8 @@ import ProgressBar from '../common/ProgressBar';
 import ClayTooltip from '../common/ClayTooltip';
 import GlazeTooltip from '../common/GlazeTooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faFilter, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import Button from '../common/Button';
 import { getAllPotteryPieces } from '../../services/potteryPieceService';
 import { getAllClayTypes } from '../../services/clayTypeService';
 import { getAllGlazes } from '../../services/glazeService';
@@ -18,8 +19,10 @@ import { STATUS_DISPLAY_NAMES, getProgressPercentage } from '../../models/Potter
  *
  * Advanced search and filter interface for pottery pieces.
  * Allows text search, filtering by status/clay/glaze, and sorting.
+ *
+ * @param {function} onBackClick - Function to call when back button is clicked
  */
-function Search() {
+function Search({ onBackClick }) {
   // Search and filter state
   const [searchText, setSearchText] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
@@ -167,6 +170,12 @@ function Search() {
 
   return (
     <div className="search-page">
+      <div className="search-back-button">
+        <Button onClick={onBackClick} variant="secondary">
+          <FontAwesomeIcon icon={faArrowLeft} /> Back to Main
+        </Button>
+      </div>
+
       <div className="search-header">
         <h2>
           <FontAwesomeIcon icon={faSearch} /> Search Pottery
