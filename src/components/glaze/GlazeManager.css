@@ -1,0 +1,199 @@
+/* GlazeManager Component Styles */
+
+.glaze-manager {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: var(--background-card);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.glaze-manager-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.glaze-manager-header h2 {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--text-muted);
+}
+
+.empty-state p {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+/* Glaze grid */
+.glaze-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+/* Glaze card */
+.glaze-card {
+  background: var(--background-secondary);
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1rem;
+  cursor: help;
+  transition: all 0.2s ease;
+}
+
+.glaze-card:hover {
+  border-color: var(--secondary-color);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.glaze-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+}
+
+.glaze-card-header h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--secondary-color);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.glaze-edit-button {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  opacity: 0.6;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.glaze-edit-button:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.glaze-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.glaze-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.glaze-code {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  background: var(--background-card);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  display: inline-block;
+  width: fit-content;
+}
+
+.glaze-details {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.glaze-cone {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: var(--background-card);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+}
+
+.glaze-finish-badge-mini {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  text-transform: capitalize;
+  color: white;
+}
+
+.glaze-finish-badge-mini[data-finish="glossy"] {
+  background: linear-gradient(135deg, #4A90E2 0%, #5BA3F5 100%);
+}
+
+.glaze-finish-badge-mini[data-finish="matte"] {
+  background: linear-gradient(135deg, #7B68EE 0%, #9370DB 100%);
+}
+
+.glaze-finish-badge-mini[data-finish="satin"] {
+  background: linear-gradient(135deg, #20B2AA 0%, #48D1CC 100%);
+}
+
+.glaze-finish-badge-mini[data-finish="textured"] {
+  background: linear-gradient(135deg, #CD853F 0%, #DEB887 100%);
+}
+
+.glaze-finish-badge-mini[data-finish="crystalline"] {
+  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+}
+
+.glaze-color-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.glaze-description {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin: 0.5rem 0 0 0;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .glaze-manager {
+    margin: 1rem 0;
+    padding: 1rem;
+  }
+
+  .glaze-manager-header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .glaze-manager-header button {
+    width: 100%;
+  }
+
+  .glaze-grid {
+    grid-template-columns: 1fr;
+  }
+}
