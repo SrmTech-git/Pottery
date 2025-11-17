@@ -29,7 +29,8 @@
   pointer-events: none;
 }
 
-.clay-tooltip-container:hover .clay-tooltip {
+.clay-tooltip-container:hover .clay-tooltip,
+.clay-tooltip-visible {
   opacity: 1;
   visibility: visible;
 }

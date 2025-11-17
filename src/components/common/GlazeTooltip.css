@@ -29,7 +29,8 @@
   pointer-events: none;
 }
 
-.glaze-tooltip-container:hover .glaze-tooltip {
+.glaze-tooltip-container:hover .glaze-tooltip,
+.glaze-tooltip-visible {
   opacity: 1;
   visibility: visible;
 }
