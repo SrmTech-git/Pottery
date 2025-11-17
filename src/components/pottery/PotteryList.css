@@ -17,6 +17,12 @@
   gap: 1rem;
 }
 
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 .pottery-list-header h2 {
   margin: 0;
   color: var(--text-primary);
@@ -107,6 +113,36 @@
 .edit-button:hover {
   background: var(--primary-light);
   transform: translateY(-1px);
+}
+
+.archive-button {
+  background: var(--background-secondary);
+  color: var(--text-primary);
+  border: 2px solid var(--border-color);
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.archive-button:hover {
+  border-color: var(--primary-color);
+  background: var(--background-card);
+  transform: translateY(-1px);
+}
+
+.archive-button.unarchive {
+  background: var(--success-color);
+  color: white;
+  border-color: var(--success-color);
+}
+
+.archive-button.unarchive:hover {
+  background: #27ae60;
+  border-color: #27ae60;
 }
 
 /* Image section */

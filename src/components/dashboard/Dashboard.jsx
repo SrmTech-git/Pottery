@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Dashboard.css';
-import { getAllPotteryPieces } from '../../services/potteryPieceService';
+import { getActivePotteryPieces } from '../../services/potteryPieceService';
 import { POTTERY_STATUS, STATUS_DISPLAY_NAMES } from '../../models/PotteryPiece';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHands, faHammer, faFire, faDroplet, faStar } from '@fortawesome/free-solid-svg-icons';
@@ -36,10 +36,10 @@ function Dashboard() {
   }, []);
 
   /**
-   * Calculate statistics from pottery pieces
+   * Calculate statistics from active (non-archived) pottery pieces
    */
   const calculateStats = () => {
-    const pieces = getAllPotteryPieces();
+    const pieces = getActivePotteryPieces();
     const total = pieces.length;
 
     // Count by status

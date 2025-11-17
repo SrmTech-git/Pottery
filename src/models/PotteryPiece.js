@@ -46,6 +46,7 @@ export const PotteryPieceModel = {
   weight: 0,                          // DECIMAL(10,2) - Weight in pounds or kg (optional)
   notes: "",                          // TEXT - Any notes about the piece
   imageUrl: "",                       // VARCHAR(500) - Path to image (optional)
+  isArchived: false,                  // BOOLEAN - Whether piece is archived
   thrownDate: "",                     // TIMESTAMP - When piece was thrown
   leatherDryDate: null,               // TIMESTAMP - When it reached leather dry stage
   bisqueFiredDate: null,              // TIMESTAMP - When bisque firing completed
@@ -74,6 +75,7 @@ export function createPotteryPiece(data) {
     weight: data.weight || 0,
     notes: data.notes || "",
     imageUrl: data.imageUrl || "",
+    isArchived: data.isArchived !== undefined ? data.isArchived : false,
     thrownDate: data.thrownDate || now,
     leatherDryDate: data.leatherDryDate || null,
     bisqueFiredDate: data.bisqueFiredDate || null,

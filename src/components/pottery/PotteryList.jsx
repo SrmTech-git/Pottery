@@ -7,7 +7,12 @@ import ProgressBar from '../common/ProgressBar';
 import ClayTooltip from '../common/ClayTooltip';
 import GlazeTooltip from '../common/GlazeTooltip';
 import PotteryForm from './PotteryForm';
-import { getAllPotteryPieces } from '../../services/potteryPieceService';
+import {
+  getActivePotteryPieces,
+  getArchivedPotteryPieces,
+  archivePotteryPiece,
+  unarchivePotteryPiece
+} from '../../services/potteryPieceService';
 import { getClayTypeById } from '../../services/clayTypeService';
 import { getGlazesForPiece } from '../../services/potteryPieceGlazeService';
 import { getProgressPercentage } from '../../models/PotteryPiece';
@@ -28,7 +33,10 @@ function PotteryList() {
   // Edit state - track which piece is being edited (null for new piece)
   const [editingPiece, setEditingPiece] = useState(null);
 
-  // Load pottery pieces when component mounts
+  // Archive view toggle
+  const [showArchived, setShowArchived] = useState(false);
+
+  // Load pottery pieces when component mounts or when showArchived changes
   useEffect(() => {
     loadPieces();
 
@@ -42,14 +50,15 @@ function PotteryList() {
     return () => {
       window.removeEventListener('potteryDataChanged', handleDataChange);
     };
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showArchived]);
 
   /**
-   * Load all pottery pieces from localStorage
+   * Load pottery pieces from localStorage based on archive filter
    */
   const loadPieces = () => {
-    const allPieces = getAllPotteryPieces();
-    setPieces(allPieces);
+    const loadedPieces = showArchived ? getArchivedPotteryPieces() : getActivePotteryPieces();
+    setPieces(loadedPieces);
   };
 
   /**
@@ -83,6 +92,31 @@ function PotteryList() {
     loadPieces(); // Reload the list
     setIsModalOpen(false); // Close the modal
     setEditingPiece(null); // Clear editing state
+  };
+
+  /**
+   * Archive a pottery piece
+   */
+  const handleArchive = (pieceId) => {
+    archivePotteryPiece(pieceId);
+    loadPieces(); // Reload to show updated list
+    window.dispatchEvent(new Event('potteryDataChanged'));
+  };
+
+  /**
+   * Unarchive a pottery piece
+   */
+  const handleUnarchive = (pieceId) => {
+    unarchivePotteryPiece(pieceId);
+    loadPieces(); // Reload to show updated list
+    window.dispatchEvent(new Event('potteryDataChanged'));
+  };
+
+  /**
+   * Toggle between active and archived view
+   */
+  const handleToggleArchived = () => {
+    setShowArchived(!showArchived);
   };
 
   /**
@@ -124,12 +158,19 @@ function PotteryList() {
     <div className="pottery-list">
       <div className="pottery-list-header">
         <div className="header-left">
-          <h2>Pottery Pieces</h2>
+          <h2>{showArchived ? '📦 Archived Pieces' : '🏺 Pottery Pieces'}</h2>
           <p className="piece-count">{pieces.length} piece{pieces.length !== 1 ? 's' : ''}</p>
         </div>
-        <Button onClick={handleAddClick}>
-          + Add New Piece
-        </Button>
+        <div className="header-right">
+          <Button onClick={handleToggleArchived} variant="secondary">
+            {showArchived ? 'Show Active' : 'Show Archived'}
+          </Button>
+          {!showArchived && (
+            <Button onClick={handleAddClick}>
+              + Add New Piece
+            </Button>
+          )}
+        </div>
       </div>
 
       {pieces.length === 0 ? (
@@ -149,13 +190,32 @@ function PotteryList() {
                   <h3>{piece.name}</h3>
                   <div className="card-header-actions">
                     <StatusBadge status={piece.status} />
-                    <button
-                      className="edit-button"
-                      onClick={() => handleEditClick(piece)}
-                      title="Edit piece"
-                    >
-                      Edit
-                    </button>
+                    {!showArchived && (
+                      <button
+                        className="edit-button"
+                        onClick={() => handleEditClick(piece)}
+                        title="Edit piece"
+                      >
+                        Edit
+                      </button>
+                    )}
+                    {showArchived ? (
+                      <button
+                        className="archive-button unarchive"
+                        onClick={() => handleUnarchive(piece.id)}
+                        title="Unarchive piece"
+                      >
+                        Unarchive
+                      </button>
+                    ) : (
+                      <button
+                        className="archive-button"
+                        onClick={() => handleArchive(piece.id)}
+                        title="Archive piece"
+                      >
+                        Archive
+                      </button>
+                    )}
                   </div>
                 </div>
 

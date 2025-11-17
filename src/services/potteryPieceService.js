@@ -184,3 +184,39 @@ export function deletePotteryPiece(id) {
   saveData(STORAGE_KEY, filtered);
   return true;
 }
+
+/**
+ * Get all non-archived pottery pieces
+ * @returns {Array} Array of pottery pieces that are not archived
+ */
+export function getActivePotteryPieces() {
+  const pieces = getAllPotteryPieces();
+  return pieces.filter(piece => !piece.isArchived);
+}
+
+/**
+ * Get all archived pottery pieces
+ * @returns {Array} Array of archived pottery pieces
+ */
+export function getArchivedPotteryPieces() {
+  const pieces = getAllPotteryPieces();
+  return pieces.filter(piece => piece.isArchived);
+}
+
+/**
+ * Archive a pottery piece
+ * @param {number} id - The pottery piece ID
+ * @returns {Object|null} The updated pottery piece, or null if not found
+ */
+export function archivePotteryPiece(id) {
+  return updatePotteryPiece(id, { isArchived: true });
+}
+
+/**
+ * Unarchive a pottery piece
+ * @param {number} id - The pottery piece ID
+ * @returns {Object|null} The updated pottery piece, or null if not found
+ */
+export function unarchivePotteryPiece(id) {
+  return updatePotteryPiece(id, { isArchived: false });
+}

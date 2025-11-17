@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './KanbanBoard.css';
-import { getAllPotteryPieces } from '../../services/potteryPieceService';
-import { updatePotteryPiece } from '../../services/potteryPieceService';
+import { getActivePotteryPieces, updatePotteryPiece } from '../../services/potteryPieceService';
 import { POTTERY_STATUS, STATUS_DISPLAY_NAMES } from '../../models/PotteryPiece';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHands, faHammer, faFire, faDroplet, faStar } from '@fortawesome/free-solid-svg-icons';
@@ -22,11 +21,11 @@ function KanbanBoard() {
   }, []);
 
   /**
-   * Load all pottery pieces from localStorage
+   * Load active (non-archived) pottery pieces from localStorage
    */
   const loadPieces = () => {
-    const allPieces = getAllPotteryPieces();
-    setPieces(allPieces);
+    const activePieces = getActivePotteryPieces();
+    setPieces(activePieces);
   };
 
   /**
