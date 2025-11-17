@@ -7,6 +7,8 @@ import ProgressBar from '../common/ProgressBar';
 import ClayTooltip from '../common/ClayTooltip';
 import GlazeTooltip from '../common/GlazeTooltip';
 import PotteryForm from './PotteryForm';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBoxArchive, faList } from '@fortawesome/free-solid-svg-icons';
 import {
   getActivePotteryPieces,
   getArchivedPotteryPieces,
@@ -158,7 +160,10 @@ function PotteryList() {
     <div className="pottery-list">
       <div className="pottery-list-header">
         <div className="header-left">
-          <h2>{showArchived ? '📦 Archived Pieces' : '🏺 Pottery Pieces'}</h2>
+          <h2>
+            <FontAwesomeIcon icon={showArchived ? faBoxArchive : faList} />{' '}
+            {showArchived ? 'Archived Pieces' : 'Pottery Pieces'}
+          </h2>
           <p className="piece-count">{pieces.length} piece{pieces.length !== 1 ? 's' : ''}</p>
         </div>
         <div className="header-right">
