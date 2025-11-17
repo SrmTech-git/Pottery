@@ -328,7 +328,7 @@ function PotteryForm({ piece, onSuccess, onCancel }) {
                     >
                       {availableGlazes.map(g => (
                         <option key={g.id} value={g.id}>
-                          {g.name} ({g.color}, {g.temperature} fire)
+                          {g.manufacturer} - {g.name} ({g.productCode}, {g.coneNumber})
                         </option>
                       ))}
                     </select>

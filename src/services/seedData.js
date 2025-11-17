@@ -10,7 +10,7 @@ import { createNewGlaze } from './glazeService';
 import { createNewPotteryPiece } from './potteryPieceService';
 import { addGlazeToPiece } from './potteryPieceGlazeService';
 import { CLAY_COLORS, CONE_NUMBERS, TEMPERATURE } from '../models/ClayType';
-import { GLAZE_FINISH } from '../models/Glaze';
+import { GLAZE_FINISH, FOOD_SAFETY } from '../models/Glaze';
 import { POTTERY_STATUS } from '../models/PotteryPiece';
 import { APPLICATION_METHOD, APPLICATION_AREA } from '../models/PotteryPieceGlaze';
 
@@ -101,47 +101,57 @@ export function seedSampleData() {
     notes: "Popular for wheel throwing. Smooth texture, no grog. Great for dinnerware."
   });
 
-  // Create glazes
+  // Create glazes with real product data
   const celadon = createNewGlaze({
-    name: "Celadon",
-    description: "Traditional pale green glaze with subtle variations",
-    color: "Pale Green",
-    temperature: TEMPERATURE.HIGH,
-    finish: GLAZE_FINISH.GLOSSY,
     manufacturer: "AMACO",
-    notes: "Beautiful on porcelain and stoneware. Apply 2-3 coats for best results."
+    name: "Celadon",
+    productCode: "C-47",
+    description: "Classic pale green celadon with subtle color variations and pooling effects",
+    color: "Pale Green",
+    coneNumber: CONE_NUMBERS.CONE_6,
+    finish: GLAZE_FINISH.GLOSSY,
+    coatsRecommended: 3,
+    foodSafety: FOOD_SAFETY.FOOD_SAFE,
+    notes: "Beautiful on porcelain and stoneware. Iron spots create interest. Food safe when fired to cone 6."
   });
 
   const tenmoku = createNewGlaze({
-    name: "Tenmoku",
-    description: "Iron-rich brown to black glaze",
-    color: "Dark Brown",
-    temperature: TEMPERATURE.HIGH,
-    finish: GLAZE_FINISH.GLOSSY,
     manufacturer: "Mayco",
-    notes: "Creates beautiful iron spots and variations. Thicker application gives darker results."
+    name: "Temmoku",
+    productCode: "SW-503",
+    description: "Iron-rich glossy brown glaze that breaks to rust tones on edges",
+    color: "Dark Brown",
+    coneNumber: CONE_NUMBERS.CONE_6,
+    finish: GLAZE_FINISH.GLOSSY,
+    coatsRecommended: 3,
+    foodSafety: FOOD_SAFETY.FOOD_SAFE,
+    notes: "Part of Stone Ware series. Thicker application gives darker results. Beautiful with carved or textured surfaces."
   });
 
-  // Low-fire glaze for earthenware (not used in current seed data, but available)
-  // eslint-disable-next-line no-unused-vars
   const clearGloss = createNewGlaze({
-    name: "Clear Gloss",
-    description: "Transparent glossy glaze",
+    manufacturer: "AMACO",
+    name: "Clear Transparent",
+    productCode: "LG-10",
+    description: "Crystal clear transparent glaze for low fire",
     color: "Clear",
-    temperature: TEMPERATURE.LOW,
+    coneNumber: CONE_NUMBERS.CONE_06,
     finish: GLAZE_FINISH.GLOSSY,
-    manufacturer: "Duncan",
-    notes: "Perfect for earthenware. Shows off clay color and any decorations."
+    coatsRecommended: 2,
+    foodSafety: FOOD_SAFETY.FOOD_SAFE,
+    notes: "Perfect for earthenware. Shows off clay color and underglaze decorations. Apply 2 smooth coats."
   });
 
   const shino = createNewGlaze({
-    name: "Shino",
-    description: "Traditional Japanese glaze with orange-peel texture",
+    manufacturer: "Mayco",
+    name: "White Cascade",
+    productCode: "SW-402",
+    description: "Traditional shino-style glaze with orange-peel texture and carbon trapping",
     color: "Orange-White",
-    temperature: TEMPERATURE.HIGH,
-    finish: GLAZE_FINISH.MATTE,
-    manufacturer: "Custom Mix",
-    notes: "Carbon trapping creates beautiful variations. Best in reduction firing."
+    coneNumber: CONE_NUMBERS.CONE_10,
+    finish: GLAZE_FINISH.TEXTURED,
+    coatsRecommended: 3,
+    foodSafety: FOOD_SAFETY.FOOD_SAFE,
+    notes: "Best results in reduction firing. Carbon trapping creates beautiful variations. Thicker application yields more texture."
   });
 
   // Create pottery pieces in various stages

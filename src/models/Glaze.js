@@ -2,30 +2,12 @@
  * Glaze Model
  *
  * Represents different glazes that can be applied to pottery pieces.
- * Each glaze has a temperature rating that must be compatible with the clay.
+ * Each glaze has specific firing temperature (cone number) and application details.
  *
  * This model is designed to be SQL-compatible for future database migration.
  */
 
-import { TEMPERATURE } from './ClayType';
-
-/**
- * Example Glaze object structure
- * This will map to a SQL database table in the future
- */
-export const GlazeModel = {
-  id: 0,                              // PRIMARY KEY (auto-increment) - INT
-  name: "",                           // VARCHAR(100) - e.g., "Celadon", "Tenmoku"
-  description: "",                    // TEXT - Detailed description
-  color: "",                          // VARCHAR(50) - Finished color (e.g., "blue", "brown")
-  temperature: TEMPERATURE.LOW,       // VARCHAR(10) - 'low' or 'high'
-  finish: "",                         // VARCHAR(50) - e.g., "glossy", "matte", "satin"
-  manufacturer: "",                   // VARCHAR(100) - Brand or maker
-  isActive: true,                     // BOOLEAN - Whether this glaze is currently in use
-  notes: "",                          // TEXT - Application notes, tips, etc.
-  createdAt: "",                      // TIMESTAMP - ISO date string
-  updatedAt: ""                       // TIMESTAMP - ISO date string
-};
+import { CONE_NUMBERS } from './ClayType';
 
 /**
  * Glaze finish options
@@ -34,7 +16,39 @@ export const GLAZE_FINISH = {
   GLOSSY: 'glossy',
   MATTE: 'matte',
   SATIN: 'satin',
-  CRYSTALLINE: 'crystalline'
+  CRYSTALLINE: 'crystalline',
+  TEXTURED: 'textured'
+};
+
+/**
+ * Food safety ratings
+ */
+export const FOOD_SAFETY = {
+  FOOD_SAFE: 'food safe',
+  NOT_FOOD_SAFE: 'not food safe',
+  EXTERIOR_ONLY: 'exterior only',
+  UNKNOWN: 'unknown'
+};
+
+/**
+ * Example Glaze object structure
+ * This will map to a SQL database table in the future
+ */
+export const GlazeModel = {
+  id: 0,                              // PRIMARY KEY (auto-increment) - INT
+  manufacturer: "",                   // VARCHAR(100) - Brand or maker (e.g., "AMACO", "Mayco")
+  name: "",                           // VARCHAR(100) - Product name (e.g., "PC-25 Textured Turquoise")
+  productCode: "",                    // VARCHAR(50) - Product code/number (e.g., "PC-25", "SW-402")
+  description: "",                    // TEXT - Detailed description
+  color: "",                          // VARCHAR(50) - Finished color (e.g., "Turquoise", "Iron Red")
+  coneNumber: CONE_NUMBERS.CONE_6,   // VARCHAR(20) - Specific cone rating
+  finish: GLAZE_FINISH.GLOSSY,       // VARCHAR(50) - Surface finish
+  coatsRecommended: 3,                // INT - Recommended number of coats
+  foodSafety: FOOD_SAFETY.UNKNOWN,   // VARCHAR(20) - Food safety rating
+  isActive: true,                     // BOOLEAN - Whether this glaze is currently in use
+  notes: "",                          // TEXT - Application notes, tips, results
+  createdAt: "",                      // TIMESTAMP - ISO date string
+  updatedAt: ""                       // TIMESTAMP - ISO date string
 };
 
 /**
@@ -45,12 +59,15 @@ export const GLAZE_FINISH = {
 export function createGlaze(data) {
   return {
     id: data.id || Date.now(),
+    manufacturer: data.manufacturer || "",
     name: data.name || "",
+    productCode: data.productCode || "",
     description: data.description || "",
     color: data.color || "",
-    temperature: data.temperature || TEMPERATURE.LOW,
+    coneNumber: data.coneNumber || CONE_NUMBERS.CONE_6,
     finish: data.finish || GLAZE_FINISH.GLOSSY,
-    manufacturer: data.manufacturer || "",
+    coatsRecommended: data.coatsRecommended || 3,
+    foodSafety: data.foodSafety || FOOD_SAFETY.UNKNOWN,
     isActive: data.isActive !== undefined ? data.isActive : true,
     notes: data.notes || "",
     createdAt: data.createdAt || new Date().toISOString(),
