@@ -13,11 +13,8 @@
 }
 
 .clay-tooltip {
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-8px);
-  margin-bottom: 8px;
+  position: fixed;
+  transform: translate(-50%, -100%);
   padding: 0;
   background: var(--background-card);
   border: 2px solid var(--primary-color);
@@ -28,14 +25,13 @@
   max-width: 320px;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
   pointer-events: none;
 }
 
 .clay-tooltip-container:hover .clay-tooltip {
   opacity: 1;
   visibility: visible;
-  transform: translateX(-50%) translateY(0);
 }
 
 /* Arrow pointing down to the clay name */

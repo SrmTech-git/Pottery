@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import './ClayTooltip.css';
 
 /**
@@ -6,16 +6,41 @@ import './ClayTooltip.css';
  *
  * Displays detailed clay information in a hover tooltip.
  * Shows manufacturer, cone number, color, shrinkage, absorption, and notes.
+ * Uses fixed positioning to prevent clipping by parent containers.
  */
 function ClayTooltip({ clayType, children }) {
+  const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
+  const containerRef = useRef(null);
+
   if (!clayType) {
     return children;
   }
 
+  const handleMouseEnter = () => {
+    if (containerRef.current) {
+      const rect = containerRef.current.getBoundingClientRect();
+      // Position tooltip above the element, centered horizontally
+      setTooltipPosition({
+        top: rect.top - 8, // 8px gap above element
+        left: rect.left + rect.width / 2
+      });
+    }
+  };
+
   return (
-    <div className="clay-tooltip-container">
+    <div
+      className="clay-tooltip-container"
+      ref={containerRef}
+      onMouseEnter={handleMouseEnter}
+    >
       {children}
-      <div className="clay-tooltip">
+      <div
+        className="clay-tooltip"
+        style={{
+          top: `${tooltipPosition.top}px`,
+          left: `${tooltipPosition.left}px`
+        }}
+      >
         <div className="clay-tooltip-header">
           <h4>{clayType.manufacturer}</h4>
           <span className="clay-tooltip-name">{clayType.name}</span>
