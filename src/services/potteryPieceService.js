@@ -84,9 +84,13 @@ export function getPotteryPieceWithClayType(id) {
 export function createNewPotteryPiece(pieceData) {
   const pieces = getAllPotteryPieces();
 
+  // Generate unique ID by combining timestamp with random number
+  // This ensures uniqueness even when creating multiple pieces quickly
+  const uniqueId = Date.now() + Math.random();
+
   const newPiece = createPotteryPiece({
     ...pieceData,
-    id: Date.now()
+    id: uniqueId
   });
 
   pieces.push(newPiece);
