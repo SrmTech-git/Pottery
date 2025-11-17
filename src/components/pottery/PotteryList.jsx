@@ -4,6 +4,7 @@ import StatusBadge from '../common/StatusBadge';
 import Button from '../common/Button';
 import Modal from '../common/Modal';
 import ProgressBar from '../common/ProgressBar';
+import ClayTooltip from '../common/ClayTooltip';
 import PotteryForm from './PotteryForm';
 import { getAllPotteryPieces } from '../../services/potteryPieceService';
 import { getClayTypeById } from '../../services/clayTypeService';
@@ -176,7 +177,9 @@ function PotteryList() {
 
                   <div className="pottery-detail">
                     <span className="detail-label">Clay:</span>
-                    <span className="detail-value">{getClayTypeName(piece.clayTypeId)}</span>
+                    <ClayTooltip clayType={getClayTypeById(piece.clayTypeId)}>
+                      <span className="detail-value">{getClayTypeName(piece.clayTypeId)}</span>
+                    </ClayTooltip>
                   </div>
 
                   <div className="pottery-detail">
