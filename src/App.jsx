@@ -5,6 +5,7 @@ import KanbanBoard from './components/kanban/KanbanBoard';
 import PotteryList from './components/pottery/PotteryList';
 import ClayManager from './components/clay/ClayManager';
 import GlazeManager from './components/glaze/GlazeManager';
+import Search from './components/search/Search';
 import Button from './components/common/Button';
 import ThemeToggle from './components/common/ThemeToggle';
 import { hasData, seedSampleData, clearAllData } from './services/seedData';
@@ -78,6 +79,7 @@ function App() {
         {showData && (
           <>
             <Dashboard />
+            <Search />
             <KanbanBoard />
             <ClayManager />
             <GlazeManager />
