@@ -71,7 +71,7 @@ function Gallery({ onBackClick }) {
         <div className="gallery-empty">
           <p>No favorite pieces yet!</p>
           <p className="gallery-hint">
-            Star your favorite pieces to add them to the gallery
+            Star your favorite pieces (active or archived) to add them to the gallery
           </p>
         </div>
       ) : (

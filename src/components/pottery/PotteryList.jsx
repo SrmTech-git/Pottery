@@ -208,18 +208,16 @@ function PotteryList() {
                   <h3>{piece.name}</h3>
                   <div className="card-header-actions">
                     <StatusBadge status={piece.status} />
-                    {!showArchived && (
-                      <button
-                        className="favorite-button"
-                        onClick={(e) => handleToggleFavorite(e, piece.id)}
-                        title={piece.isFavorite ? "Remove from gallery" : "Add to gallery"}
-                      >
-                        <FontAwesomeIcon
-                          icon={piece.isFavorite ? faStarSolid : faStarRegular}
-                          className={piece.isFavorite ? 'favorite-active' : 'favorite-inactive'}
-                        />
-                      </button>
-                    )}
+                    <button
+                      className="favorite-button"
+                      onClick={(e) => handleToggleFavorite(e, piece.id)}
+                      title={piece.isFavorite ? "Remove from gallery" : "Add to gallery"}
+                    >
+                      <FontAwesomeIcon
+                        icon={piece.isFavorite ? faStarSolid : faStarRegular}
+                        className={piece.isFavorite ? 'favorite-active' : 'favorite-inactive'}
+                      />
+                    </button>
                     {!showArchived && (
                       <button
                         className="edit-button"

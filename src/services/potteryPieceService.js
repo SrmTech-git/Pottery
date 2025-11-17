@@ -222,13 +222,13 @@ export function unarchivePotteryPiece(id) {
 }
 
 /**
- * Get all favorite pottery pieces
+ * Get all favorite pottery pieces (including archived)
  * @param {number} limit - Optional limit on number of pieces (default: 10)
  * @returns {Array} Array of favorite pottery pieces
  */
 export function getFavoritePotteryPieces(limit = 10) {
   const pieces = getAllPotteryPieces();
-  return pieces.filter(piece => piece.isFavorite && !piece.isArchived).slice(0, limit);
+  return pieces.filter(piece => piece.isFavorite).slice(0, limit);
 }
 
 /**
