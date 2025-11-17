@@ -4,7 +4,10 @@ import Button from '../common/Button';
 import Modal from '../common/Modal';
 import GlazeForm from './GlazeForm';
 import GlazeTooltip from '../common/GlazeTooltip';
-import { getAllGlazes } from '../../services/glazeService';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar as faStarSolid } from '@fortawesome/free-solid-svg-icons';
+import { faStar as faStarRegular } from '@fortawesome/free-regular-svg-icons';
+import { getAllGlazes, toggleFavoriteGlaze } from '../../services/glazeService';
 
 /**
  * GlazeManager Component
@@ -57,6 +60,13 @@ function GlazeManager() {
     setEditingGlaze(null);
   };
 
+  const handleToggleFavorite = (e, glazeId) => {
+    e.stopPropagation(); // Prevent tooltip from being affected
+    toggleFavoriteGlaze(glazeId);
+    loadGlazes();
+    window.dispatchEvent(new Event('potteryDataChanged'));
+  };
+
   return (
     <div className="glaze-manager">
       <div className="glaze-manager-header">
@@ -78,13 +88,25 @@ function GlazeManager() {
                 <div className="glaze-card">
                   <div className="glaze-card-header">
                     <h3>{glaze.manufacturer}</h3>
-                    <button
-                      className="glaze-edit-button"
-                      onClick={() => handleEditClick(glaze)}
-                      title="Edit glaze"
-                    >
-                      ✏️
-                    </button>
+                    <div className="glaze-card-actions">
+                      <button
+                        className="glaze-favorite-button"
+                        onClick={(e) => handleToggleFavorite(e, glaze.id)}
+                        title={glaze.isFavorite ? "Remove from favorites" : "Add to favorites"}
+                      >
+                        <FontAwesomeIcon
+                          icon={glaze.isFavorite ? faStarSolid : faStarRegular}
+                          className={glaze.isFavorite ? 'favorite-active' : 'favorite-inactive'}
+                        />
+                      </button>
+                      <button
+                        className="glaze-edit-button"
+                        onClick={() => handleEditClick(glaze)}
+                        title="Edit glaze"
+                      >
+                        ✏️
+                      </button>
+                    </div>
                   </div>
                   <div className="glaze-card-body">
                     <div className="glaze-name">{glaze.name}</div>

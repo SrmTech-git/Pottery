@@ -109,3 +109,17 @@ export function deleteGlaze(id) {
   saveData(STORAGE_KEY, filtered);
   return true;
 }
+
+/**
+ * Toggle favorite status of a glaze
+ * @param {number} id - The glaze ID
+ * @returns {Object|null} The updated glaze, or null if not found
+ */
+export function toggleFavoriteGlaze(id) {
+  const glaze = getGlazeById(id);
+  if (!glaze) {
+    return null;
+  }
+
+  return updateGlaze(id, { isFavorite: !glaze.isFavorite });
+}

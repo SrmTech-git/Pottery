@@ -75,6 +75,13 @@
   letter-spacing: 0.5px;
 }
 
+.glaze-card-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.glaze-favorite-button,
 .glaze-edit-button {
   background: none;
   border: none;
@@ -85,9 +92,19 @@
   transition: opacity 0.2s, transform 0.2s;
 }
 
+.glaze-favorite-button:hover,
 .glaze-edit-button:hover {
   opacity: 1;
   transform: scale(1.1);
+}
+
+.glaze-favorite-button .favorite-active {
+  color: #fbbf24; /* Gold color for filled star */
+  opacity: 1;
+}
+
+.glaze-favorite-button .favorite-inactive {
+  color: var(--text-muted);
 }
 
 .glaze-card-body {

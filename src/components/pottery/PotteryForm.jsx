@@ -42,13 +42,29 @@ function PotteryForm({ piece, onSuccess, onCancel }) {
   // Selected glazes with application details
   const [selectedGlazes, setSelectedGlazes] = useState([]);
 
+  /**
+   * Sort function to put favorites first
+   */
+  const sortByFavorite = (items) => {
+    return [...items].sort((a, b) => {
+      // If one is favorite and the other isn't, favorite comes first
+      if (a.isFavorite === b.isFavorite) {
+        // If both are same favorite status, sort alphabetically by name
+        const aName = `${a.manufacturer} ${a.name}`;
+        const bName = `${b.manufacturer} ${b.name}`;
+        return aName.localeCompare(bName);
+      }
+      return b.isFavorite ? 1 : -1; // favorites first
+    });
+  };
+
   // Load clay types and glazes when component mounts
   useEffect(() => {
     const types = getAllClayTypes();
-    setClayTypes(types);
+    setClayTypes(sortByFavorite(types));
 
     const glazes = getAllGlazes();
-    setAvailableGlazes(glazes);
+    setAvailableGlazes(sortByFavorite(glazes));
 
     // If editing, populate form with piece data
     if (isEditMode && piece) {

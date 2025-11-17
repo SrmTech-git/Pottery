@@ -61,6 +61,22 @@ function Search({ onBackClick }) {
   }, [searchText, statusFilter, clayFilter, glazeFilter, sortBy, includeArchived, allPieces]);
 
   /**
+   * Sort function to put favorites first
+   */
+  const sortByFavorite = (items) => {
+    return [...items].sort((a, b) => {
+      // If one is favorite and the other isn't, favorite comes first
+      if (a.isFavorite === b.isFavorite) {
+        // If both are same favorite status, sort alphabetically by name
+        const aName = `${a.manufacturer} ${a.name}`;
+        const bName = `${b.manufacturer} ${b.name}`;
+        return aName.localeCompare(bName);
+      }
+      return b.isFavorite ? 1 : -1; // favorites first
+    });
+  };
+
+  /**
    * Load all data
    */
   const loadData = () => {
@@ -68,10 +84,10 @@ function Search({ onBackClick }) {
     setAllPieces(pieces);
 
     const types = getAllClayTypes();
-    setClayTypes(types);
+    setClayTypes(sortByFavorite(types));
 
     const allGlazes = getAllGlazes();
-    setGlazes(allGlazes);
+    setGlazes(sortByFavorite(allGlazes));
   };
 
   /**

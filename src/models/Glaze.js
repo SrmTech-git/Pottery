@@ -46,6 +46,7 @@ export const GlazeModel = {
   coatsRecommended: 3,                // INT - Recommended number of coats
   foodSafety: FOOD_SAFETY.UNKNOWN,   // VARCHAR(20) - Food safety rating
   isActive: true,                     // BOOLEAN - Whether this glaze is currently in use
+  isFavorite: false,                  // BOOLEAN - Whether this glaze is marked as favorite
   notes: "",                          // TEXT - Application notes, tips, results
   createdAt: "",                      // TIMESTAMP - ISO date string
   updatedAt: ""                       // TIMESTAMP - ISO date string
@@ -69,6 +70,7 @@ export function createGlaze(data) {
     coatsRecommended: data.coatsRecommended || 3,
     foodSafety: data.foodSafety || FOOD_SAFETY.UNKNOWN,
     isActive: data.isActive !== undefined ? data.isActive : true,
+    isFavorite: data.isFavorite !== undefined ? data.isFavorite : false,
     notes: data.notes || "",
     createdAt: data.createdAt || new Date().toISOString(),
     updatedAt: data.updatedAt || new Date().toISOString()

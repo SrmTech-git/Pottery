@@ -75,6 +75,13 @@
   letter-spacing: 0.5px;
 }
 
+.clay-card-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.clay-favorite-button,
 .clay-edit-button {
   background: none;
   border: none;
@@ -85,9 +92,19 @@
   transition: opacity 0.2s, transform 0.2s;
 }
 
+.clay-favorite-button:hover,
 .clay-edit-button:hover {
   opacity: 1;
   transform: scale(1.1);
+}
+
+.clay-favorite-button .favorite-active {
+  color: #fbbf24; /* Gold color for filled star */
+  opacity: 1;
+}
+
+.clay-favorite-button .favorite-inactive {
+  color: var(--text-muted);
 }
 
 .clay-card-body {

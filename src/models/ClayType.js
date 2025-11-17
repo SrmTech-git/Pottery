@@ -56,6 +56,7 @@ export const ClayTypeModel = {
   shrinkage: 0,                       // DECIMAL(4,2) - Shrinkage percentage (optional)
   absorptionRate: 0,                  // DECIMAL(4,2) - Water absorption % (optional)
   isActive: true,                     // BOOLEAN - Whether this clay type is currently in use
+  isFavorite: false,                  // BOOLEAN - Whether this clay type is marked as favorite
   notes: "",                          // TEXT - Additional notes
   createdAt: "",                      // TIMESTAMP - ISO date string
   updatedAt: ""                       // TIMESTAMP - ISO date string
@@ -77,6 +78,7 @@ export function createClayType(data) {
     shrinkage: data.shrinkage || 0,
     absorptionRate: data.absorptionRate || 0,
     isActive: data.isActive !== undefined ? data.isActive : true,
+    isFavorite: data.isFavorite !== undefined ? data.isFavorite : false,
     notes: data.notes || "",
     createdAt: data.createdAt || new Date().toISOString(),
     updatedAt: data.updatedAt || new Date().toISOString()

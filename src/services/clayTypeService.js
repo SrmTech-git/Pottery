@@ -100,3 +100,17 @@ export function deleteClayType(id) {
   saveData(STORAGE_KEY, filtered);
   return true;
 }
+
+/**
+ * Toggle favorite status of a clay type
+ * @param {number} id - The clay type ID
+ * @returns {Object|null} The updated clay type, or null if not found
+ */
+export function toggleFavoriteClayType(id) {
+  const clayType = getClayTypeById(id);
+  if (!clayType) {
+    return null;
+  }
+
+  return updateClayType(id, { isFavorite: !clayType.isFavorite });
+}

@@ -4,7 +4,10 @@ import Button from '../common/Button';
 import Modal from '../common/Modal';
 import ClayForm from './ClayForm';
 import ClayTooltip from '../common/ClayTooltip';
-import { getAllClayTypes } from '../../services/clayTypeService';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar as faStarSolid } from '@fortawesome/free-solid-svg-icons';
+import { faStar as faStarRegular } from '@fortawesome/free-regular-svg-icons';
+import { getAllClayTypes, toggleFavoriteClayType } from '../../services/clayTypeService';
 
 /**
  * ClayManager Component
@@ -57,6 +60,13 @@ function ClayManager() {
     setEditingClay(null);
   };
 
+  const handleToggleFavorite = (e, clayId) => {
+    e.stopPropagation(); // Prevent tooltip from being affected
+    toggleFavoriteClayType(clayId);
+    loadClayTypes();
+    window.dispatchEvent(new Event('potteryDataChanged'));
+  };
+
   return (
     <div className="clay-manager">
       <div className="clay-manager-header">
@@ -78,13 +88,25 @@ function ClayManager() {
                 <div className="clay-card">
                   <div className="clay-card-header">
                     <h3>{clay.manufacturer}</h3>
-                    <button
-                      className="clay-edit-button"
-                      onClick={() => handleEditClick(clay)}
-                      title="Edit clay type"
-                    >
-                      ✏️
-                    </button>
+                    <div className="clay-card-actions">
+                      <button
+                        className="clay-favorite-button"
+                        onClick={(e) => handleToggleFavorite(e, clay.id)}
+                        title={clay.isFavorite ? "Remove from favorites" : "Add to favorites"}
+                      >
+                        <FontAwesomeIcon
+                          icon={clay.isFavorite ? faStarSolid : faStarRegular}
+                          className={clay.isFavorite ? 'favorite-active' : 'favorite-inactive'}
+                        />
+                      </button>
+                      <button
+                        className="clay-edit-button"
+                        onClick={() => handleEditClick(clay)}
+                        title="Edit clay type"
+                      >
+                        ✏️
+                      </button>
+                    </div>
                   </div>
                   <div className="clay-card-body">
                     <div className="clay-name">{clay.name}</div>
