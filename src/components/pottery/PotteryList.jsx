@@ -84,13 +84,13 @@ function PotteryList() {
   };
 
   /**
-   * Get clay type name for a piece
+   * Get clay type display name for a piece
    * @param {number} clayTypeId - The clay type ID
-   * @returns {string} The clay type name or 'Unknown'
+   * @returns {string} The clay type display name or 'Unknown'
    */
   const getClayTypeName = (clayTypeId) => {
     const clayType = getClayTypeById(clayTypeId);
-    return clayType ? clayType.name : 'Unknown';
+    return clayType ? `${clayType.manufacturer} - ${clayType.name}` : 'Unknown';
   };
 
   /**

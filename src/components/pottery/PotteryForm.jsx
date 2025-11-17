@@ -240,7 +240,7 @@ function PotteryForm({ piece, onSuccess, onCancel }) {
         >
           {clayTypes.map(clay => (
             <option key={clay.id} value={clay.id}>
-              {clay.name} ({clay.temperature} fire, {clay.color})
+              {clay.manufacturer} - {clay.name} ({clay.coneNumber}, {clay.color})
             </option>
           ))}
         </select>

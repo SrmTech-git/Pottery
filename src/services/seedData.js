@@ -9,7 +9,7 @@ import { createNewClayType } from './clayTypeService';
 import { createNewGlaze } from './glazeService';
 import { createNewPotteryPiece } from './potteryPieceService';
 import { addGlazeToPiece } from './potteryPieceGlazeService';
-import { CLAY_COLORS, TEMPERATURE } from '../models/ClayType';
+import { CLAY_COLORS, CONE_NUMBERS, TEMPERATURE } from '../models/ClayType';
 import { GLAZE_FINISH } from '../models/Glaze';
 import { POTTERY_STATUS } from '../models/PotteryPiece';
 import { APPLICATION_METHOD, APPLICATION_AREA } from '../models/PotteryPieceGlaze';
@@ -45,42 +45,60 @@ export function clearAllData() {
 export function seedSampleData() {
   console.log('Seeding sample data...');
 
-  // Create clay types
+  // Create clay types with real manufacturer data
   const earthenware = createNewClayType({
-    name: "Earthenware",
-    description: "Low-fire clay, porous and easy to work with. Great for beginners.",
-    temperature: TEMPERATURE.LOW,
-    color: CLAY_COLORS.RED
+    manufacturer: "Standard Ceramic",
+    name: "Earthenware No. 104",
+    description: "Low-fire red earthenware with good plasticity. Ideal for handbuilding and sculpture.",
+    coneNumber: CONE_NUMBERS.CONE_06,
+    color: CLAY_COLORS.TERRA_COTTA,
+    shrinkage: 6.5,
+    absorptionRate: 12.5,
+    notes: "Excellent for terra cotta planters and decorative pieces."
   });
 
   const stoneware = createNewClayType({
-    name: "Stoneware",
-    description: "High-fire clay, durable and vitrified. Perfect for functional ware.",
-    temperature: TEMPERATURE.HIGH,
-    color: CLAY_COLORS.LIGHT
+    manufacturer: "Laguna",
+    name: "WC-617 Frost",
+    description: "Smooth white stoneware with excellent throwing properties. Low iron content.",
+    coneNumber: CONE_NUMBERS.CONE_6,
+    color: CLAY_COLORS.WHITE,
+    shrinkage: 12.0,
+    absorptionRate: 2.0,
+    notes: "Popular for functional ware. Works well on wheel and hand building."
   });
 
   const porcelain = createNewClayType({
-    name: "Porcelain",
-    description: "High-fire white clay, translucent when thin. Beautiful but challenging.",
-    temperature: TEMPERATURE.HIGH,
-    color: CLAY_COLORS.LIGHT
+    manufacturer: "Standard Ceramic",
+    name: "Porcelain 365",
+    description: "Pure white translucent porcelain. Excellent for throwing and hand building.",
+    coneNumber: CONE_NUMBERS.CONE_10,
+    color: CLAY_COLORS.WHITE,
+    shrinkage: 13.5,
+    absorptionRate: 0.5,
+    notes: "Challenging but rewarding. Translucent when thin. Beautiful for fine dinnerware."
   });
 
-  // eslint-disable-next-line no-unused-vars
   const bmix5 = createNewClayType({
-    name: "B-Mix 5",
-    description: "Laguna B-Mix cone 5 clay, versatile mid-range clay body with excellent workability.",
-    temperature: TEMPERATURE.HIGH,
-    color: CLAY_COLORS.LIGHT
+    manufacturer: "Laguna",
+    name: "B-Mix 5 w/ Grog",
+    description: "Mid-range cone 5 clay with grog for added texture and strength. Versatile and forgiving.",
+    coneNumber: CONE_NUMBERS.CONE_5,
+    color: CLAY_COLORS.BUFF,
+    shrinkage: 11.5,
+    absorptionRate: 3.5,
+    notes: "Great for beginners and professionals alike. Grog adds tooth for handbuilding."
   });
 
-  // eslint-disable-next-line no-unused-vars
   const bmix10 = createNewClayType({
+    manufacturer: "Laguna",
     name: "B-Mix 10",
-    description: "Laguna B-Mix cone 10 clay, smooth high-fire clay body popular for wheel throwing.",
-    temperature: TEMPERATURE.HIGH,
-    color: CLAY_COLORS.LIGHT
+    description: "Cone 10 high-fire smooth clay body. Excellent plasticity and workability.",
+    coneNumber: CONE_NUMBERS.CONE_10,
+    color: CLAY_COLORS.BUFF,
+    shrinkage: 12.5,
+    absorptionRate: 1.5,
+    notes: "Popular for wheel throwing. Smooth texture, no grog. Great for dinnerware."
   });
 
   // Create glazes
