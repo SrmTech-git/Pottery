@@ -144,6 +144,10 @@
 
 .kanban-card-header {
   margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
 }
 
 .kanban-card-header h4 {
@@ -152,6 +156,32 @@
   color: var(--text-primary);
   font-weight: 600;
   line-height: 1.3;
+  flex: 1;
+}
+
+.kanban-favorite-button {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0.2rem;
+  opacity: 0.6;
+  transition: opacity 0.2s, transform 0.2s;
+  flex-shrink: 0;
+}
+
+.kanban-favorite-button:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.kanban-favorite-button .favorite-active {
+  color: #fbbf24; /* Gold color for filled star */
+  opacity: 1;
+}
+
+.kanban-favorite-button .favorite-inactive {
+  color: var(--text-muted);
 }
 
 .kanban-card-body {

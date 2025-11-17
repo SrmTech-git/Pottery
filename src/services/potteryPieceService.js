@@ -220,3 +220,27 @@ export function archivePotteryPiece(id) {
 export function unarchivePotteryPiece(id) {
   return updatePotteryPiece(id, { isArchived: false });
 }
+
+/**
+ * Get all favorite pottery pieces
+ * @param {number} limit - Optional limit on number of pieces (default: 10)
+ * @returns {Array} Array of favorite pottery pieces
+ */
+export function getFavoritePotteryPieces(limit = 10) {
+  const pieces = getAllPotteryPieces();
+  return pieces.filter(piece => piece.isFavorite && !piece.isArchived).slice(0, limit);
+}
+
+/**
+ * Toggle favorite status of a pottery piece
+ * @param {number} id - The pottery piece ID
+ * @returns {Object|null} The updated pottery piece, or null if not found
+ */
+export function toggleFavoritePotteryPiece(id) {
+  const piece = getPotteryPieceById(id);
+  if (!piece) {
+    return null;
+  }
+
+  return updatePotteryPiece(id, { isFavorite: !piece.isFavorite });
+}

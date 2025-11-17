@@ -97,6 +97,30 @@
   gap: 0.75rem;
 }
 
+.favorite-button {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  opacity: 0.7;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.favorite-button:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.favorite-button .favorite-active {
+  color: #fbbf24; /* Gold color for filled star */
+  opacity: 1;
+}
+
+.favorite-button .favorite-inactive {
+  color: var(--text-muted);
+}
+
 .edit-button {
   background: var(--primary-color);
   color: var(--background-primary);

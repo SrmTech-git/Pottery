@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './KanbanBoard.css';
-import { getActivePotteryPieces, updatePotteryPiece } from '../../services/potteryPieceService';
+import { getActivePotteryPieces, updatePotteryPiece, toggleFavoritePotteryPiece } from '../../services/potteryPieceService';
 import { POTTERY_STATUS, STATUS_DISPLAY_NAMES } from '../../models/PotteryPiece';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHands, faHammer, faFire, faDroplet, faStar } from '@fortawesome/free-solid-svg-icons';
+import { faStar as faStarRegular } from '@fortawesome/free-regular-svg-icons';
 
 /**
  * KanbanBoard Component
@@ -98,6 +99,16 @@ function KanbanBoard() {
     window.dispatchEvent(new CustomEvent('potteryDataChanged'));
   };
 
+  /**
+   * Toggle favorite status of a pottery piece
+   */
+  const handleToggleFavorite = (e, pieceId) => {
+    e.stopPropagation(); // Prevent drag from starting
+    toggleFavoritePotteryPiece(pieceId);
+    loadPieces();
+    window.dispatchEvent(new Event('potteryDataChanged'));
+  };
+
   // Icon mapping for each status
   const statusIcons = {
     [POTTERY_STATUS.THROWN]: faHands,
@@ -165,6 +176,17 @@ function KanbanBoard() {
                     >
                       <div className="kanban-card-header">
                         <h4>{piece.name}</h4>
+                        <button
+                          className="kanban-favorite-button"
+                          onClick={(e) => handleToggleFavorite(e, piece.id)}
+                          onDragStart={(e) => e.preventDefault()}
+                          title={piece.isFavorite ? "Remove from gallery" : "Add to gallery"}
+                        >
+                          <FontAwesomeIcon
+                            icon={piece.isFavorite ? faStar : faStarRegular}
+                            className={piece.isFavorite ? 'favorite-active' : 'favorite-inactive'}
+                          />
+                        </button>
                       </div>
                       <div className="kanban-card-body">
                         <div className="kanban-card-detail">

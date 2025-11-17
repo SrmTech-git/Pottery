@@ -9,11 +9,14 @@ import GlazeTooltip from '../common/GlazeTooltip';
 import PotteryForm from './PotteryForm';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBoxArchive, faList } from '@fortawesome/free-solid-svg-icons';
+import { faStar as faStarSolid } from '@fortawesome/free-solid-svg-icons';
+import { faStar as faStarRegular } from '@fortawesome/free-regular-svg-icons';
 import {
   getActivePotteryPieces,
   getArchivedPotteryPieces,
   archivePotteryPiece,
-  unarchivePotteryPiece
+  unarchivePotteryPiece,
+  toggleFavoritePotteryPiece
 } from '../../services/potteryPieceService';
 import { getClayTypeById } from '../../services/clayTypeService';
 import { getGlazesForPiece } from '../../services/potteryPieceGlazeService';
@@ -115,6 +118,16 @@ function PotteryList() {
   };
 
   /**
+   * Toggle favorite status of a pottery piece
+   */
+  const handleToggleFavorite = (e, pieceId) => {
+    e.stopPropagation(); // Prevent card click events
+    toggleFavoritePotteryPiece(pieceId);
+    loadPieces(); // Reload to show updated list
+    window.dispatchEvent(new Event('potteryDataChanged'));
+  };
+
+  /**
    * Toggle between active and archived view
    */
   const handleToggleArchived = () => {
@@ -195,6 +208,18 @@ function PotteryList() {
                   <h3>{piece.name}</h3>
                   <div className="card-header-actions">
                     <StatusBadge status={piece.status} />
+                    {!showArchived && (
+                      <button
+                        className="favorite-button"
+                        onClick={(e) => handleToggleFavorite(e, piece.id)}
+                        title={piece.isFavorite ? "Remove from gallery" : "Add to gallery"}
+                      >
+                        <FontAwesomeIcon
+                          icon={piece.isFavorite ? faStarSolid : faStarRegular}
+                          className={piece.isFavorite ? 'favorite-active' : 'favorite-inactive'}
+                        />
+                      </button>
+                    )}
                     {!showArchived && (
                       <button
                         className="edit-button"

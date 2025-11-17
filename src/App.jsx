@@ -6,10 +6,11 @@ import PotteryList from './components/pottery/PotteryList';
 import ClayManager from './components/clay/ClayManager';
 import GlazeManager from './components/glaze/GlazeManager';
 import Search from './components/search/Search';
+import Gallery from './components/gallery/Gallery';
 import Button from './components/common/Button';
 import ThemeToggle from './components/common/ThemeToggle';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faImages } from '@fortawesome/free-solid-svg-icons';
 import { hasData, seedSampleData, clearAllData } from './services/seedData';
 
 /**
@@ -22,7 +23,7 @@ function App() {
   const [dataExists, setDataExists] = useState(false);
 
   // Page navigation state
-  const [currentPage, setCurrentPage] = useState('main'); // 'main' or 'search'
+  const [currentPage, setCurrentPage] = useState('main'); // 'main', 'search', or 'gallery'
 
   // Check if data exists when component mounts
   useEffect(() => {
@@ -56,9 +57,14 @@ function App() {
           </div>
           <div className="header-actions">
             {dataExists && currentPage === 'main' && (
-              <Button onClick={() => setCurrentPage('search')} variant="primary">
-                <FontAwesomeIcon icon={faSearch} /> Search Pottery
-              </Button>
+              <>
+                <Button onClick={() => setCurrentPage('gallery')} variant="primary">
+                  <FontAwesomeIcon icon={faImages} /> Gallery
+                </Button>
+                <Button onClick={() => setCurrentPage('search')} variant="primary">
+                  <FontAwesomeIcon icon={faSearch} /> Search Pottery
+                </Button>
+              </>
             )}
             {dataExists && (
               <Button onClick={handleLoadSampleData} variant="secondary">
@@ -100,6 +106,10 @@ function App() {
 
         {showData && currentPage === 'search' && (
           <Search onBackClick={() => setCurrentPage('main')} />
+        )}
+
+        {showData && currentPage === 'gallery' && (
+          <Gallery onBackClick={() => setCurrentPage('main')} />
         )}
       </main>
 

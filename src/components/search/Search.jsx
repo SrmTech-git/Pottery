@@ -6,8 +6,10 @@ import ClayTooltip from '../common/ClayTooltip';
 import GlazeTooltip from '../common/GlazeTooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faFilter, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faStar as faStarSolid } from '@fortawesome/free-solid-svg-icons';
+import { faStar as faStarRegular } from '@fortawesome/free-regular-svg-icons';
 import Button from '../common/Button';
-import { getAllPotteryPieces } from '../../services/potteryPieceService';
+import { getAllPotteryPieces, toggleFavoritePotteryPiece } from '../../services/potteryPieceService';
 import { getAllClayTypes } from '../../services/clayTypeService';
 import { getAllGlazes } from '../../services/glazeService';
 import { getClayTypeById } from '../../services/clayTypeService';
@@ -161,6 +163,16 @@ function Search({ onBackClick }) {
   };
 
   /**
+   * Toggle favorite status of a pottery piece
+   */
+  const handleToggleFavorite = (e, pieceId) => {
+    e.stopPropagation();
+    toggleFavoritePotteryPiece(pieceId);
+    loadData();
+    window.dispatchEvent(new Event('potteryDataChanged'));
+  };
+
+  /**
    * Get clay type display name
    */
   const getClayTypeName = (clayTypeId) => {
@@ -311,7 +323,19 @@ function Search({ onBackClick }) {
                 <div key={piece.id} className="result-card">
                   <div className="result-card-header">
                     <h3>{piece.name}</h3>
-                    <StatusBadge status={piece.status} />
+                    <div className="result-card-header-actions">
+                      <button
+                        className="result-favorite-button"
+                        onClick={(e) => handleToggleFavorite(e, piece.id)}
+                        title={piece.isFavorite ? "Remove from gallery" : "Add to gallery"}
+                      >
+                        <FontAwesomeIcon
+                          icon={piece.isFavorite ? faStarSolid : faStarRegular}
+                          className={piece.isFavorite ? 'favorite-active' : 'favorite-inactive'}
+                        />
+                      </button>
+                      <StatusBadge status={piece.status} />
+                    </div>
                   </div>
 
                   {piece.imageUrl && (

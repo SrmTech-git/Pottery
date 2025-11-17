@@ -47,6 +47,7 @@ export const PotteryPieceModel = {
   notes: "",                          // TEXT - Any notes about the piece
   imageUrl: "",                       // VARCHAR(500) - Path to image (optional)
   isArchived: false,                  // BOOLEAN - Whether piece is archived
+  isFavorite: false,                  // BOOLEAN - Whether piece is favorited for gallery
   thrownDate: "",                     // TIMESTAMP - When piece was thrown
   leatherDryDate: null,               // TIMESTAMP - When it reached leather dry stage
   bisqueFiredDate: null,              // TIMESTAMP - When bisque firing completed
@@ -76,6 +77,7 @@ export function createPotteryPiece(data) {
     notes: data.notes || "",
     imageUrl: data.imageUrl || "",
     isArchived: data.isArchived !== undefined ? data.isArchived : false,
+    isFavorite: data.isFavorite !== undefined ? data.isFavorite : false,
     thrownDate: data.thrownDate || now,
     leatherDryDate: data.leatherDryDate || null,
     bisqueFiredDate: data.bisqueFiredDate || null,
