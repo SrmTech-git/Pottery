@@ -26,6 +26,7 @@ function KanbanBoard() {
    */
   const loadPieces = () => {
     const allPieces = getAllPotteryPieces();
+    console.log('🔄 Loaded pieces:', allPieces.map(p => ({ id: p.id, name: p.name, status: p.status })));
     setPieces(allPieces);
   };
 
@@ -34,6 +35,7 @@ function KanbanBoard() {
    */
   const handleDragStart = (e, piece) => {
     e.stopPropagation();
+    console.log('🟢 DRAG START:', { id: piece.id, name: piece.name, status: piece.status });
     setDraggedPiece(piece);
     // Store the piece ID in dataTransfer
     e.dataTransfer.setData('text/plain', piece.id.toString());
@@ -67,10 +69,16 @@ function KanbanBoard() {
     e.preventDefault();
     e.stopPropagation();
 
-    if (!draggedPiece) return;
+    console.log('🔵 DROP EVENT:', { newStatus, draggedPiece: draggedPiece ? { id: draggedPiece.id, name: draggedPiece.name, oldStatus: draggedPiece.status } : null });
+
+    if (!draggedPiece) {
+      console.log('⚠️ NO DRAGGED PIECE!');
+      return;
+    }
 
     // Don't update if dropped in same column
     if (draggedPiece.status === newStatus) {
+      console.log('⏭️ Same column, skipping update');
       setDraggedPiece(null);
       return;
     }
@@ -86,8 +94,11 @@ function KanbanBoard() {
       ...(newStatus === POTTERY_STATUS.FIRED && { firedDate: new Date().toISOString() })
     };
 
+    console.log('📝 Updating piece:', { id: updatedPiece.id, name: updatedPiece.name, newStatus: updatedPiece.status });
+
     // Update the piece in localStorage
-    updatePotteryPiece(draggedPiece.id, updatedPiece);
+    const result = updatePotteryPiece(draggedPiece.id, updatedPiece);
+    console.log('💾 Update result:', result);
 
     // Clear drag state
     setDraggedPiece(null);
